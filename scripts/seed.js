@@ -5,6 +5,7 @@ const {
 	users_roles,
 	products,
 	stock,
+	demands,
 	transactions,
 } = require("../app/lib/placeholder-data.js");
 const bcrypt = require("bcrypt");
@@ -203,6 +204,41 @@ async function seedStock(client) {
 	}
 }
 
+async function seedDemands(client) {
+	try {
+		// Create the "demands" table if it doesn't exist
+		const createTable = await client.sql`
+		CREATE TABLE IF NOT EXISTS demands (
+			id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+			client_id UUID REFERENCES users(id),
+			description TEXT NOT NULL,
+			keywords VARCHAR(255),
+			date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			status VARCHAR(50) NOT NULL
+		);`;
+
+		console.log(`Created "demands" table`);
+
+		// Insert data into the "transactions" table
+		const insertedDemands = await Promise.all(
+			demands.map(
+				(demand) =>
+					client.sql`INSERT INTO demands (id, client_id, description, keywords, date, status) VALUES (${demand.id}, ${demand.client_id}, ${demand.description}, ${demand.keywords}, ${demand.date}, ${demand.status})`
+			)
+		);
+
+		console.log(`Seeded ${insertedDemands.length} demands`);
+
+		return {
+			createTable,
+			demands: insertedDemands,
+		};
+	} catch (error) {
+		console.error("Error seeding demands:", error);
+		throw error;
+	}
+}
+
 async function seedTransactions(client) {
 	try {
 		// Create the "transactions" table if it doesn't exist
@@ -251,6 +287,7 @@ async function main() {
 	await seedUsersRoles(client);
 	await seedProducts(client);
 	await seedStock(client);
+	await seedDemands(client);
 	await seedTransactions(client);
 
 	await client.end();

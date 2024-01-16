@@ -46,6 +46,17 @@ const stock = [
 	},
 ];
 
+const demands = [
+	{
+		id: "3958dc9e-712f-4377-85e9-fec4b6a6442f",
+		client_id: "3958dc9e-712f-4377-85e9-fec4b6a6442a",
+		description: "I need 100 5m CAT5E internet cables",
+		keywords: "internet cable cat5e 5m",
+		date: "2024-01-14 19:42:57",
+		status: "open",
+	},
+];
+
 const transactions = [
 	{
 		id: "3958dc9e-712f-4377-85e9-fec4b6a6442e",
@@ -64,5 +75,6 @@ module.exports = {
 	users_roles,
 	products,
 	stock,
+	demands,
 	transactions,
 };
