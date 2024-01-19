@@ -3,8 +3,9 @@ import { sql } from "@vercel/postgres";
 export async function fetchLatestDemands() {
 	// noStore();
 	try {
-		const data = await sql`SELECT id, description FROM demands;`;
-		console.log(data.rows);
+		const data =
+			await sql`SELECT demands.id, demands.description, users.name FROM demands INNER JOIN users ON demands.client_id=users.id;`;
+
 		const demands = data.rows;
 		return demands;
 	} catch (error) {

@@ -13,7 +13,7 @@ export default async function Page() {
 							className="bg-slate-100 rounded-lg p-1.5 hover:bg-slate-200 my-2"
 							key={demand.id}
 						>
-							<h2 className="font-bold">Client name</h2>
+							<h2 className="font-bold">{demand.name}</h2>
 							<p>{demand.description}</p>
 						</div>
 					);
