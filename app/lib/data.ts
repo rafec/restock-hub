@@ -1,7 +1,8 @@
 import { sql } from "@vercel/postgres";
+import { unstable_noStore as noStore } from "next/cache";
 
 export async function fetchLatestDemands() {
-	// noStore();
+	noStore();
 	try {
 		const data =
 			await sql`SELECT demands.id, demands.description, users.name FROM demands INNER JOIN users ON demands.client_id=users.id;`;
