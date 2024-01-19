@@ -65,7 +65,7 @@ const stock = [
 const demands = [
 	{
 		id: "71fa0908-19f6-4d0a-b46a-597fa8accaa1",
-		client_id: "0fb5eb4f-966f-4a3c-a3e8-058269f10c44",
+		customer_id: "0fb5eb4f-966f-4a3c-a3e8-058269f10c44",
 		description: "I need 100 5m CAT5E internet cables",
 		keywords: "internet cable cat5e 5m",
 		date: "2024-01-14 19:42:57",
@@ -73,7 +73,7 @@ const demands = [
 	},
 	{
 		id: "91f2898c-2d11-4e79-b412-d3b2f1bf35ff",
-		client_id: "13d45148-8404-4651-a381-34f7fdffa8cc",
+		customer_id: "13d45148-8404-4651-a381-34f7fdffa8cc",
 		description:
 			"I love internet cables, so I want to buy everithing you may have. I like the 5m CAT5E internet cables.",
 		keywords: "internet cable cat5e 5m",

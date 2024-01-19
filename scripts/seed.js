@@ -212,7 +212,7 @@ async function seedDemands(client) {
 		const createTable = await client.sql`
 		CREATE TABLE IF NOT EXISTS demands (
 			id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-			client_id UUID REFERENCES users(id),
+			customer_id UUID REFERENCES users(id),
 			description TEXT NOT NULL,
 			keywords VARCHAR(255),
 			date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -225,7 +225,7 @@ async function seedDemands(client) {
 		const insertedDemands = await Promise.all(
 			demands.map(
 				(demand) =>
-					client.sql`INSERT INTO demands (id, client_id, description, keywords, date, status) VALUES (${demand.id}, ${demand.client_id}, ${demand.description}, ${demand.keywords}, ${demand.date}, ${demand.status})
+					client.sql`INSERT INTO demands (id, customer_id, description, keywords, date, status) VALUES (${demand.id}, ${demand.customer_id}, ${demand.description}, ${demand.keywords}, ${demand.date}, ${demand.status})
 					ON CONFLICT (id) DO NOTHING;`
 			)
 		);
