@@ -1,6 +1,10 @@
+"use client";
+
+import { createDemand } from "@/app/lib/actions";
+
 export default function Form() {
 	return (
-		<form>
+		<form action={createDemand}>
 			<div className="rounded-md bg-gray-50 p-4 md:p-6">
 				<div className="mb-4">
 					<label htmlFor="products" className="mb-2 block text-sm font-medium">
@@ -52,6 +56,12 @@ export default function Form() {
 						</div>
 					</div>
 				</div>
+				<button
+					type="submit"
+					className="bg-green-500 p-2 rounded-md text-white"
+				>
+					Create Demand
+				</button>
 			</div>
 		</form>
 	);
