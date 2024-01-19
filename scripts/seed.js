@@ -82,10 +82,10 @@ async function seedRoles(client) {
 
 		return {
 			createTable,
-			invoices: insertedRoles,
+			roles: insertedRoles,
 		};
 	} catch (error) {
-		console.error("Error seeding invoices:", error);
+		console.error("Error seeding roles:", error);
 		throw error;
 	}
 }
@@ -130,6 +130,7 @@ async function seedUsersRoles(client) {
 
 async function seedProducts(client) {
 	try {
+		await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 		// Create the "products" table if it doesn't exist
 		const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS products (
@@ -206,6 +207,7 @@ async function seedStock(client) {
 
 async function seedDemands(client) {
 	try {
+		await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 		// Create the "demands" table if it doesn't exist
 		const createTable = await client.sql`
 		CREATE TABLE IF NOT EXISTS demands (
@@ -223,7 +225,8 @@ async function seedDemands(client) {
 		const insertedDemands = await Promise.all(
 			demands.map(
 				(demand) =>
-					client.sql`INSERT INTO demands (id, client_id, description, keywords, date, status) VALUES (${demand.id}, ${demand.client_id}, ${demand.description}, ${demand.keywords}, ${demand.date}, ${demand.status})`
+					client.sql`INSERT INTO demands (id, client_id, description, keywords, date, status) VALUES (${demand.id}, ${demand.client_id}, ${demand.description}, ${demand.keywords}, ${demand.date}, ${demand.status})
+					ON CONFLICT (id) DO NOTHING;`
 			)
 		);
 
@@ -241,6 +244,7 @@ async function seedDemands(client) {
 
 async function seedTransactions(client) {
 	try {
+		await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 		// Create the "transactions" table if it doesn't exist
 		const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS transactions (
