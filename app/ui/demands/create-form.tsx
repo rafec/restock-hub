@@ -1,6 +1,7 @@
 "use client";
 
 import { createDemand } from "@/app/lib/actions";
+import Link from "next/link";
 
 export default function Form() {
 	return (
@@ -56,12 +57,20 @@ export default function Form() {
 						</div>
 					</div>
 				</div>
-				<button
-					type="submit"
-					className="bg-green-500 p-2 rounded-md text-white"
-				>
-					Create Demand
-				</button>
+				<div className="flex mt-6 justify-end gap-4">
+					<Link
+						href="/dashboard/demands"
+						className="bg-gray-100 p-2 rounded-md text-black transition-colors hover:bg-gray-200"
+					>
+						Cancel
+					</Link>
+					<button
+						type="submit"
+						className="bg-green-500 p-2 rounded-md text-white transition-colors hover:bg-green-600"
+					>
+						Create Demand
+					</button>
+				</div>
 			</div>
 		</form>
 	);
