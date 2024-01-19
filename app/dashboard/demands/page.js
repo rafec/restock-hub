@@ -13,7 +13,10 @@ export default async function Page() {
 							className="bg-slate-100 rounded-lg p-1.5 hover:bg-slate-200 my-2"
 							key={demand.id}
 						>
-							<h2 className="font-bold">{demand.name}</h2>
+							<div className="flex justify-between">
+								<h2 className="font-bold">{demand.name}</h2>
+								<p className="text-slate-500">{demand.date}</p>
+							</div>
 							<p>{demand.description}</p>
 						</div>
 					);
