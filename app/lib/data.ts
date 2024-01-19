@@ -5,7 +5,7 @@ export async function fetchLatestDemands() {
 	noStore();
 	try {
 		const data =
-			await sql`SELECT demands.id, demands.description, demands.date, users.name FROM demands INNER JOIN users ON demands.client_id=users.id;`;
+			await sql`SELECT demands.id, demands.description, demands.date, users.name FROM demands INNER JOIN users ON demands.customer_id=users.id;`;
 
 		data.rows.map((demand) => {
 			const day = demand.date.getDate();
