@@ -4,13 +4,13 @@ export default async function Page() {
 	const latestDemands = await fetchLatestDemands();
 
 	return (
-		<main>
+		<div className="w-full">
 			<h1 className="font-bold text-2xl pb-2">Demands</h1>
 			<div>
 				{latestDemands.map((demand) => {
 					return (
 						<div
-							className="bg-slate-100 rounded-lg p-1.5 hover:bg-slate-200 my-2"
+							className="bg-gray-50 rounded-lg p-1.5 hover:bg-gray-100 my-2"
 							key={demand.id}
 						>
 							<div className="flex justify-between">
@@ -22,6 +22,6 @@ export default async function Page() {
 					);
 				})}
 			</div>
-		</main>
+		</div>
 	);
 }
