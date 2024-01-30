@@ -1,11 +1,12 @@
-import { sql } from "@vercel/postgres";
+import database from "@/infra/database";
 import { unstable_noStore as noStore } from "next/cache";
 
 export async function fetchLatestDemands() {
 	noStore();
 	try {
-		const data =
-			await sql`SELECT demands.id, demands.description, demands.date, users.name FROM demands INNER JOIN users ON demands.user_id=users.id;`;
+		const data = await database.query(
+			`SELECT demands.id, demands.description, demands.date, users.name FROM demands INNER JOIN users ON demands.user_id=users.id;`
+		);
 
 		data.rows.map((demand) => {
 			const day = demand.date.getDate();
