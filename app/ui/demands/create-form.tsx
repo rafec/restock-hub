@@ -1,11 +1,11 @@
 "use client";
 
-import { createDemand } from "@/app/lib/actions";
+// import { createDemand } from "@/app/lib/actions";
 import Link from "next/link";
 
 export default function Form() {
 	return (
-		<form action={createDemand}>
+		<form>
 			<div className="rounded-md bg-gray-50 p-4 md:p-6">
 				<div className="mb-4">
 					<label htmlFor="products" className="mb-2 block text-sm font-medium">
