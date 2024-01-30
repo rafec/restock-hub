@@ -13,7 +13,7 @@ const FormSchema = z.object({
 	status: z.string(),
 });
 
-const CreateDemand = FormSchema.omit({ id: true, date: true, status: true });
+// const CreateDemand = FormSchema.omit({ id: true, date: true, status: true });
 
 // export async function createDemand(formData: FormData) {
 // 	const { customer_id, description, keywords } = CreateDemand.parse({
