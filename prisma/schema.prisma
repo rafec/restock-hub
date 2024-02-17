@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  country   String?
+  state     String?
+  city      String?
+  address   String?
+  roleId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  role                   Role          @relation(fields: [roleId], references: [id])
+  transactionsAsBuyer    Transaction[] @relation("BuyerTransactions")
+  transactionsAsSupplier Transaction[] @relation("SupplierTransactions")
+  stock                  Stock[]
+  demands                Demand[]
+}
+
+model Role {
+  id        String   @id @default(uuid())
+  roleName  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users User[]
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  productName String
+  description String?
+  price       Decimal  @db.Decimal(10, 2)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  stock Stock[]
+}
+
+model Stock {
+  supplierId String
+  productId  String
+  quantity   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  supplier User    @relation(fields: [supplierId], references: [id])
+  product  Product @relation(fields: [productId], references: [id])
+
+  @@id(name: "id", [supplierId, productId])
+}
+
+model Demand {
+  id          String   @id @default(uuid())
+  userId      String
+  description String
+  keywords    String[]
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Transaction {
+  id         String   @id @default(uuid())
+  buyerId    String
+  supplierId String
+  productId  String
+  quantity   Int
+  totalValue Decimal  @db.Decimal(10, 2)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  buyer    User @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  supplier User @relation("SupplierTransactions", fields: [supplierId], references: [id])
+}
