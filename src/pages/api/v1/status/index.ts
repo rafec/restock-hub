@@ -1,6 +1,7 @@
+import { Request, Response } from "express";
 import prisma from "src/lib/prisma";
 
-async function status(request, response) {
+async function status(request: Request, response: Response) {
   const updatedAt = new Date().toISOString();
 
   const databaseVersionResult = await prisma.$queryRaw`SHOW server_version;`;
