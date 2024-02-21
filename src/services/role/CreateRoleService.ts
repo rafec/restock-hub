@@ -12,6 +12,10 @@ class CreateRoleService {
       },
     });
 
+    if (roleAlreadyExists) {
+      throw new Error("Role already exists.");
+    }
+
     const role = await prisma.role.create({
       data: {
         roleName,

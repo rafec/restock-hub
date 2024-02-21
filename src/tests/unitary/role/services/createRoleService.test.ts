@@ -1,5 +1,6 @@
 import { CreateRoleService } from "../../../../services/role/CreateRoleService";
-import { DeleteRoleService } from "../../../../services/role/DeleteRoleService";
+import prisma from "../../../../lib/prisma";
+
 test("Create new role should return a Role object", async () => {
   const expectedRoleFormat = {
     id: expect.any(String),
@@ -9,10 +10,14 @@ test("Create new role should return a Role object", async () => {
   };
 
   const createRoleService = new CreateRoleService();
-  const deleteRoleService = new DeleteRoleService();
   const roleName = "test";
   const role = await createRoleService.execute(roleName);
   console.log(role);
   expect(role).toMatchObject(expectedRoleFormat);
-  await deleteRoleService.execute(roleName);
+
+  await prisma.role.delete({
+    where: {
+      roleName,
+    },
+  });
 });
