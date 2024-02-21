@@ -1,4 +1,4 @@
-import prisma from "src/lib/prisma";
+import prisma from "../../lib/prisma";
 
 class CreateRoleService {
   async execute(roleName: string) {
