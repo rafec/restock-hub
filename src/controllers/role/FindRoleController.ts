@@ -13,7 +13,7 @@ class FindRoleController {
         .status(200)
         .json({ message: "Succesfull operation.", data: role });
     } catch (error) {
-      console.log();
+      console.log("Operation failed.", error.message);
       return response.status(404).json({ message: error.message, data: {} });
     }
   }
