@@ -11,7 +11,7 @@ class CreateRoleController {
 
       return response
         .status(201)
-        .json({ message: "Succesfull operation! Role created.", data: role });
+        .json({ message: "Succesfull operation. Role created.", data: role });
     } catch (error) {
       console.log("Error creating role: ", error);
       response.status(400).json({ message: error.message, data: [] });
