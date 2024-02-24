@@ -3,7 +3,7 @@ import { DeleteRoleService } from "src/services/role/DeleteRoleService";
 
 class DeleteRoleController {
   async handle(request: Request, response: Response) {
-    const { id } = request.body;
+    const { id } = request.params;
     try {
       const deleteRoleService = new DeleteRoleService();
 
