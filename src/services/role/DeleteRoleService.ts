@@ -1,10 +1,10 @@
 import prisma from "../../lib/prisma";
 
 class DeleteRoleService {
-  async execute(roleName: string) {
+  async execute(id: string) {
     const role = await prisma.role.delete({
       where: {
-        roleName,
+        id,
       },
     });
   }
