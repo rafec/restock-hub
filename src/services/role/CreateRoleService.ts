@@ -11,7 +11,6 @@ class CreateRoleService {
         roleName,
       },
     });
-
     if (roleAlreadyExists) {
       throw new Error("Role already exists.");
     }
