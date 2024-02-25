@@ -1,5 +1,5 @@
 import { CreateRoleService } from "services/role/CreateRoleService";
-import prisma from "src/lib/prisma";
+import prisma from "lib/prisma";
 
 describe("CreateRoleService", () => {
   let createRoleService: CreateRoleService;
@@ -13,7 +13,7 @@ describe("CreateRoleService", () => {
   });
 
   it("Should create a new role with a valid role name", async () => {
-    const roleName = "admin";
+    const roleName = "valid-role-name";
 
     const role = await createRoleService.execute(roleName);
 
