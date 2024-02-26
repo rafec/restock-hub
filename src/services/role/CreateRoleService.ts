@@ -15,13 +15,13 @@ class CreateRoleService {
       throw new Error("Role already exists.");
     }
 
-    const role = await prisma.role.create({
+    const createdRole = await prisma.role.create({
       data: {
         roleName,
       },
     });
 
-    return role;
+    return createdRole;
   }
 }
 

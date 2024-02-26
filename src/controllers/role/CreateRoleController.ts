@@ -7,13 +7,14 @@ class CreateRoleController {
       const { roleName } = request.body;
       const createRoleService = new CreateRoleService();
 
-      const role = await createRoleService.execute(roleName);
+      const createdRole = await createRoleService.execute(roleName);
 
-      return response
-        .status(201)
-        .json({ message: "Succesfull operation. Role created.", data: role });
+      return response.status(201).json({
+        message: "Succesfull operation. Role created.",
+        data: createdRole,
+      });
     } catch (error) {
-      console.log("Error creating role: ", error);
+      console.log("Error creating role: ", error.message);
       response.status(400).json({ message: error.message, data: [] });
     }
   }
