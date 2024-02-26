@@ -14,7 +14,7 @@ class DeleteRoleController {
         data: deletedRole,
       });
     } catch (error) {
-      console.log(`Error deleting role with id ${id}`);
+      console.log(`Error deleting role with id ${id}`, error);
       response.status(404).json({ message: error.message, data: {} });
     }
   }
