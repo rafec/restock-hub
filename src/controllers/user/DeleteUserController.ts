@@ -10,7 +10,7 @@ class DeleteUserController {
       const deletedUser = await deleteUserService.execute(id);
 
       return response.status(204).json({
-        message: "Succesfull operation.",
+        message: "Succesfull operation. User deleted.",
         data: deletedUser,
       });
     } catch (error) {
