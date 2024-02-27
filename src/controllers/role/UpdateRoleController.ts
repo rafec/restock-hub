@@ -4,9 +4,9 @@ import { UpdateRoleService } from "services/role/UpdateRoleService";
 class UpdateRoleController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
-    const { roleName } = request.body;
 
     try {
+      const { roleName } = request.body;
       const updateRoleService = new UpdateRoleService();
       const updatedRole = await updateRoleService.execute(id, roleName);
 
@@ -15,10 +15,7 @@ class UpdateRoleController {
         data: updatedRole,
       });
     } catch (error) {
-      console.log(
-        `Error updating role '${roleName}' with id ${id}.`,
-        error.message,
-      );
+      console.log(`Error updating role with id ${id}.`, error.message);
       response.status(404).json({ message: error.message, data: {} });
     }
   }

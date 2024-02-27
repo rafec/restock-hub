@@ -4,10 +4,10 @@ import { UpdateUserService } from "services/user/UpdateUserService";
 class UpdateUserController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, email, password, country, city, state, address, roleId } =
-      request.body;
 
     try {
+      const { name, email, password, country, city, state, address, roleId } =
+        request.body;
       const updateUserService = new UpdateUserService();
       const updatedUser = await updateUserService.execute({
         id,
@@ -26,7 +26,7 @@ class UpdateUserController {
         data: updatedUser,
       });
     } catch (error) {
-      console.log(`Error updating user '${name}' with id ${id}.`);
+      console.log(`Error updating user with id ${id}.`);
       response.status(404).json({ message: error.message, data: {} });
     }
   }
