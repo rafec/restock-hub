@@ -91,3 +91,9 @@
 6. Help/Support:
 
    - A section where users can find FAQs, contact support, or access help documentation.
+
+# Must fix:
+
+- Interfaces in services need to be polished;
+- Role service need an Interface to padronize;
+- Stock need to allow creation with quantity === 0 (can't be negative on creation, but can when already created)
