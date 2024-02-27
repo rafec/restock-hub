@@ -10,7 +10,7 @@ class DeleteRoleController {
       const deletedRole = await deleteRoleService.execute(id);
 
       return response.status(204).json({
-        message: "Succesfull operation! Role deleted",
+        message: "Succesfull operation. Role deleted.",
         data: deletedRole,
       });
     } catch (error) {

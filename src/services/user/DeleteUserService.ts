@@ -29,7 +29,7 @@ class DeleteUserService {
     });
 
     if (userAfterDeletion) {
-      throw new Error("Failed to delete user.");
+      throw new Error("Failed to delete user. User deleted.");
     }
 
     return deletedUser;
