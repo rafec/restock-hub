@@ -1,7 +1,6 @@
 import prisma from "lib/prisma";
 
 interface IUserRequest {
-  id?: string;
   name: string;
   email: string;
   password: string;
@@ -10,12 +9,10 @@ interface IUserRequest {
   city?: string;
   address?: string;
   roleId: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
 class CreateUserService {
-  async execute({ name, email, password, roleId }: IUserRequest) {
+  async execute({ name, email, password, roleId, ...props }: IUserRequest) {
     if (!name || !email || !password || !roleId) {
       throw new Error("Name, email, password, and roleId are required.");
     }
@@ -45,6 +42,7 @@ class CreateUserService {
         email,
         password,
         roleId,
+        ...props,
       },
     });
 

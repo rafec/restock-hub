@@ -1,7 +1,7 @@
 import prisma from "lib/prisma";
 
 interface IUserRequest {
-  id?: string;
+  id: string;
   name?: string;
   email?: string;
   password?: string;
