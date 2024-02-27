@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { FindAllRolesService } from "src/services/role/FindAllRolesService";
+import { FindAllRolesService } from "services/role/FindAllRolesService";
 
 class FindAllRolesController {
   async handle(request: Request, response: Response) {

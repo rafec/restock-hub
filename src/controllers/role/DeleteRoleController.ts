@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DeleteRoleService } from "src/services/role/DeleteRoleService";
+import { DeleteRoleService } from "services/role/DeleteRoleService";
 
 class DeleteRoleController {
   async handle(request: Request, response: Response) {

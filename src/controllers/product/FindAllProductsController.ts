@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { FindAllProductsService } from "src/services/product/FindAllProductsService";
+import { FindAllProductsService } from "services/product/FindAllProductsService";
 
 class FindAllProductsController {
   async handle(request: Request, response: Response) {

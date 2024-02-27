@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateRoleService } from "src/services/role/CreateRoleService";
+import { CreateRoleService } from "services/role/CreateRoleService";
 
 class CreateRoleController {
   async handle(request: Request, response: Response) {
