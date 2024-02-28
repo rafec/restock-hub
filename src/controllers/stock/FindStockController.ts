@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { FindStockService } from "src/services/stock/FindStockService";
+import { FindStockService } from "services/stock/FindStockService";
 
 class FindStockController {
   async handle(request: Request, response: Response) {

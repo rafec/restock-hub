@@ -96,4 +96,6 @@
 
 - Interfaces in services need to be polished;
 - Role service need an Interface to padronize;
-- Stock need to allow creation with quantity === 0 (can't be negative on creation, but can when already created)
+- Stock need to allow creation with quantity === 0 (can't be negative on creation, but can when already created);
+- Allow for supplier and/or product update when updating stock;
+- Add validations in the update Services, just like the ones in the create Services.
