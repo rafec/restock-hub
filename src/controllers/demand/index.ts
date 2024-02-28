@@ -1,3 +1,4 @@
 import { CreateDemandController } from "./CreateDemandController";
+import { DeleteDemandController } from "./DeleteDemandController";
 
-export { CreateDemandController };
+export { CreateDemandController, DeleteDemandController };
