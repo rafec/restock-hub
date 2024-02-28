@@ -98,4 +98,7 @@
 - Role service need an Interface to padronize;
 - Stock need to allow creation with quantity === 0 (can't be negative on creation, but can when already created);
 - Allow for supplier and/or product update when updating stock;
-- Add validations in the update Services, just like the ones in the create Services.
+- Add validations in the update Services, just like the ones in the create Services;
+- Add logic responsible for managing the `status` field of `demand` (currently being sent through the requisition's body by the user), and maybe consider using `enum` in the `prisma.schema`;
+- Restrict the creation of duplicated demands, or maybe use alerts and notifications for the user to be aware;
+- Need to think of a way for the user to buy from more than one supplier from the same demand.

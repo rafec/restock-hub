@@ -6,6 +6,7 @@ import roleRoutes from "./role.routes";
 import userRoutes from "./user.routes";
 import productRoutes from "./product.routes";
 import stockRoutes from "./stock.routes";
+import demandRoutes from "./demand.routes";
 
 const routes = express.Router();
 
@@ -15,5 +16,6 @@ routes.use("/role", roleRoutes);
 routes.use("/user", userRoutes);
 routes.use("/product", productRoutes);
 routes.use("/stock", stockRoutes);
+routes.use("/demand", demandRoutes);
 
 export default routes;
