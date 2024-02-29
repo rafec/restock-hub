@@ -20,8 +20,10 @@ class UpdateDemandService {
     }
 
     if (userId) {
-      const user = await prisma.user.findUnique({ where: { id: userId } });
-      if (!user) {
+      const userExists = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+      if (!userExists) {
         throw new Error("User not found.");
       }
     }
