@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateDemandService } from "src/services/demand/CreateDemandService";
+import { CreateDemandService } from "services/demand/CreateDemandService";
 
 class CreateDemandController {
   async handle(request: Request, response: Response) {

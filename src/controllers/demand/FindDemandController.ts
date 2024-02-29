@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { FindDemandService } from "src/services/demand/FindDemandService";
+import { FindDemandService } from "services/demand/FindDemandService";
 
 class FindDemandController {
   async handle(request: Request, response: Response) {

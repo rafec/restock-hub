@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DeleteDemandService } from "src/services/demand/DeleteDemandService";
+import { DeleteDemandService } from "services/demand/DeleteDemandService";
 
 class DeleteDemandController {
   async handle(request: Request, response: Response) {
