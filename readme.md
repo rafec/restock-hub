@@ -92,7 +92,7 @@
 
    - A section where users can find FAQs, contact support, or access help documentation.
 
-# Must fix:
+## Must fix:
 
 - `Interfaces` in services need to be polished;
 - `Role service` need an `Interface` to padronize;
@@ -107,4 +107,6 @@
 - Think about the transaction `totalValue` field, if its necessary or would be better to calculate at the program and not save it in the database;
 - In `transaction`, think about the `productId` field. Currently, only one product is being sent, but a transaction may have more than one product;
 - Need to think if `transactions` can be duplicated (exact same conditions for two different transactions);
-- Need to use `join/include` in the prisma queries to improve information display.
+- Need to use `join/include` in the prisma queries to improve information display;
+- Create tests for the services/controllers;
+- Maybe do an "error messages" class/file.
