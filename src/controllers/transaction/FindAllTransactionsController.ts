@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { FindAllTransactionsService } from "src/services/transaction/FindAllTransactionsService";
+import { FindAllTransactionsService } from "services/transaction/FindAllTransactionsService";
 
 class FindAllTransactionsController {
   async handle(request: Request, response: Response) {
