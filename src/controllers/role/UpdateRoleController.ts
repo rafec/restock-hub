@@ -1,14 +1,18 @@
 import { Request, Response } from "express";
 import { UpdateRoleService } from "services/role/UpdateRoleService";
 
+interface IRoleRequest {
+  roleName?: string;
+}
+
 class UpdateRoleController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
 
     try {
-      const { roleName } = request.body;
+      const roleProps: IRoleRequest = request.body;
       const updateRoleService = new UpdateRoleService();
-      const updatedRole = await updateRoleService.execute(id, roleName);
+      const updatedRole = await updateRoleService.execute({ id, ...roleProps });
 
       return response.status(200).json({
         message: "Succesfull operation. Role updated.",

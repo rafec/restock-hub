@@ -1,13 +1,19 @@
 import { Request, Response } from "express";
 import { CreateRoleService } from "services/role/CreateRoleService";
 
+interface IRoleRequest {
+  roleName: string;
+}
+
 class CreateRoleController {
   async handle(request: Request, response: Response) {
     try {
-      const { roleName } = request.body;
+      const roleProps: IRoleRequest = request.body;
       const createRoleService = new CreateRoleService();
 
-      const createdRole = await createRoleService.execute(roleName);
+      const createdRole = await createRoleService.execute({
+        ...roleProps,
+      });
 
       return response.status(201).json({
         message: "Succesfull operation. Role created.",

@@ -1,7 +1,11 @@
 import prisma from "lib/prisma";
 
+interface IRoleRequest {
+  roleName: string;
+}
+
 class CreateRoleService {
-  async execute(roleName: string) {
+  async execute({ roleName }: IRoleRequest) {
     if (!roleName) {
       throw new Error("Invalid role name.");
     }
