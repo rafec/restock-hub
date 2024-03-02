@@ -1,19 +1,22 @@
 import { Request, Response } from "express";
 import { CreateTransactionService } from "services/transaction/CreateTransactionService";
 
+interface ITransactionRequest {
+  buyerId: string;
+  supplierId: string;
+  productId: string;
+  quantity: number;
+  totalValue: number;
+}
+
 class CreateTransactionController {
   async handle(request: Request, response: Response) {
     try {
-      const { buyerId, supplierId, productId, quantity, totalValue } =
-        request.body;
+      const transactionProps: ITransactionRequest = request.body;
       const createTransactionService = new CreateTransactionService();
 
       const createdTransaction = await createTransactionService.execute({
-        buyerId,
-        supplierId,
-        productId,
-        quantity,
-        totalValue,
+        ...transactionProps,
       });
 
       return response.status(200).json({

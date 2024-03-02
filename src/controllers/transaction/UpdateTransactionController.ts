@@ -1,21 +1,24 @@
 import { Request, Response } from "express";
 import { UpdateTransactionService } from "services/transaction/UpdateTransactionService";
 
+interface ITransactionRequest {
+  buyerId: string;
+  supplierId?: string;
+  productId?: string;
+  quantity?: number;
+  totalValue?: number;
+}
+
 class UpdateTransactionController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
     try {
-      const { buyerId, supplierId, productId, quantity, totalValue } =
-        request.body;
+      const transactionProps: ITransactionRequest = request.body;
       const updateTransactionService = new UpdateTransactionService();
 
       const updatedTransaction = await updateTransactionService.execute({
         id,
-        buyerId,
-        supplierId,
-        productId,
-        quantity,
-        totalValue,
+        ...transactionProps,
       });
 
       return response.status(200).json({
