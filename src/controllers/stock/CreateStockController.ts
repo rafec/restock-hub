@@ -1,16 +1,20 @@
 import { Request, Response } from "express";
 import { CreateStockService } from "services/stock/CreateStockService";
 
+interface IStockRequest {
+  supplierId: string;
+  productId: string;
+  quantity: number;
+}
+
 class CreateStockController {
   async handle(request: Request, response: Response) {
     try {
-      const { supplierId, productId, quantity } = request.body;
+      const stockProps: IStockRequest = request.body;
       const createStockService = new CreateStockService();
 
       const createdStock = await createStockService.execute({
-        supplierId,
-        productId,
-        quantity,
+        ...stockProps,
       });
 
       return response.status(200).json({
