@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { UpdateDemandService } from "services/demand/UpdateDemandService";
 
 interface IDemandRequest {
-  id: string;
   userId?: string;
   description?: string;
   keywords?: string[];
@@ -13,12 +12,12 @@ class UpdateDemandController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
     try {
-      const props: IDemandRequest = request.body;
+      const demandProps: IDemandRequest = request.body;
       const updateDemandService = new UpdateDemandService();
 
       const updatedDemand = await updateDemandService.execute({
         id,
-        ...props,
+        ...demandProps,
       });
 
       return response.status(200).json({

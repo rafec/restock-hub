@@ -1,18 +1,22 @@
 import { Request, Response } from "express";
 import { UpdateProductService } from "src/services/product/UpdateProductService";
 
+interface IProductRequest {
+  productName?: string;
+  description?: string;
+  price?: number;
+}
+
 class UpdateProductController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
     try {
-      const { productName, description, price } = request.body;
+      const productProps: IProductRequest = request.body;
       const updateProductService = new UpdateProductService();
 
       const updatedProduct = await updateProductService.execute({
         id,
-        productName,
-        description,
-        price,
+        ...productProps,
       });
 
       return response.status(200).json({

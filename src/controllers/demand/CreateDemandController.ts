@@ -11,11 +11,11 @@ interface IDemandRequest {
 class CreateDemandController {
   async handle(request: Request, response: Response) {
     try {
-      const props: IDemandRequest = request.body;
+      const demandProps: IDemandRequest = request.body;
       const createDemandService = new CreateDemandService();
 
       const createdDemand = await createDemandService.execute({
-        ...props,
+        ...demandProps,
       });
 
       return response.status(200).json({

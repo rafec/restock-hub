@@ -1,16 +1,20 @@
 import { Request, Response } from "express";
 import { CreateProductService } from "src/services/product/CreateProductService";
 
+interface IProductRequest {
+  productName: string;
+  description?: string;
+  price: number;
+}
+
 class CreateProductController {
   async handle(request: Request, response: Response) {
     try {
-      const { productName, description, price } = request.body;
+      const productProps: IProductRequest = request.body;
       const createProductService = new CreateProductService();
 
       const createdProduct = await createProductService.execute({
-        productName,
-        description,
-        price,
+        ...productProps,
       });
 
       return response.status(200).json({
