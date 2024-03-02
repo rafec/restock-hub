@@ -1,24 +1,29 @@
 import { Request, Response } from "express";
 import { UpdateUserService } from "services/user/UpdateUserService";
 
+interface IUserRequest {
+  name?: string;
+  email?: string;
+  password?: string;
+  country?: string;
+  state?: string;
+  city?: string;
+  address?: string;
+  roleId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 class UpdateUserController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
 
     try {
-      const { name, email, password, country, city, state, address, roleId } =
-        request.body;
+      const userProps: IUserRequest = request.body;
       const updateUserService = new UpdateUserService();
       const updatedUser = await updateUserService.execute({
         id,
-        name,
-        email,
-        password,
-        country,
-        city,
-        state,
-        address,
-        roleId,
+        ...userProps,
       });
 
       return response.status(200).json({
