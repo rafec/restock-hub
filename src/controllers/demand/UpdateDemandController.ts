@@ -1,21 +1,24 @@
 import { Request, Response } from "express";
 import { UpdateDemandService } from "services/demand/UpdateDemandService";
 
+interface IDemandRequest {
+  id: string;
+  userId?: string;
+  description?: string;
+  keywords?: string[];
+  status?: string;
+}
+
 class UpdateDemandController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
     try {
-      const { userId, description, keywords, status } = request.body;
+      const props: IDemandRequest = request.body;
       const updateDemandService = new UpdateDemandService();
-
-      console.log(keywords);
 
       const updatedDemand = await updateDemandService.execute({
         id,
-        userId,
-        description,
-        keywords,
-        status,
+        ...props,
       });
 
       return response.status(200).json({
