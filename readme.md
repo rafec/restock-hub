@@ -94,19 +94,4 @@
 
 ## Must fix:
 
-- `Interfaces` in services need to be polished;
-- `Role service` need an `Interface` to padronize;
-- Stock need to allow creation with `quantity === 0` (can't be negative on creation, but can when already created);
-- Allow for `supplier` and/or `product` update when updating stock;
-- Add validations in the `update Services`, just like the ones in the create Services;
-- Add logic responsible for managing the `status` field of `demand` (currently being sent through the requisition's body by the user), and maybe consider using `enum` in the `prisma.schema`;
-- Restrict the creation of duplicated demands, or maybe use alerts and notifications for the user to be aware;
-- Need to think of a way for the user to buy from more than one supplier from the same `demand`;
-- Add restrictions and validations to the `keywords` sent when creating and updating demands, not only check if it is an array;
-- Change the method that `buyerId` is set in demands to automatic, getting the id of the user instead of being setted by the user;
-- Think about the transaction `totalValue` field, if its necessary or would be better to calculate at the program and not save it in the database;
-- In `transaction`, think about the `productId` field. Currently, only one product is being sent, but a transaction may have more than one product;
-- Need to think if `transactions` can be duplicated (exact same conditions for two different transactions);
-- Need to use `join/include` in the prisma queries to improve information display;
-- Create tests for the services/controllers;
-- Maybe do an "error messages" class/file.
+- ...

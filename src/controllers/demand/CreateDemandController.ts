@@ -1,17 +1,21 @@
 import { Request, Response } from "express";
 import { CreateDemandService } from "services/demand/CreateDemandService";
 
+interface IDemandRequest {
+  userId: string;
+  description: string;
+  keywords: string[];
+  status: string;
+}
+
 class CreateDemandController {
   async handle(request: Request, response: Response) {
     try {
-      const { userId, description, keywords, status } = request.body;
+      const props: IDemandRequest = request.body;
       const createDemandService = new CreateDemandService();
 
       const createdDemand = await createDemandService.execute({
-        userId,
-        description,
-        keywords,
-        status,
+        ...props,
       });
 
       return response.status(200).json({
