@@ -59,6 +59,20 @@ class CreateTransactionService {
         quantity,
         totalValue,
       },
+      include: {
+        buyer: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        supplier: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
 
     return createdTransaction;

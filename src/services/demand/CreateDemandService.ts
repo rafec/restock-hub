@@ -40,6 +40,14 @@ class CreateDemandService {
         keywords: { set: keywords },
         status,
       },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
 
     return createdDemand;

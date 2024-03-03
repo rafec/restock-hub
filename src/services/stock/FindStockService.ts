@@ -8,6 +8,20 @@ class FindStockService {
   async execute({ supplierId, productId }: IStockRequest) {
     const stock = await prisma.stock.findUnique({
       where: { id: { supplierId, productId } },
+      include: {
+        supplier: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        product: {
+          select: {
+            id: true,
+            productName: true,
+          },
+        },
+      },
     });
 
     if (!stock) {

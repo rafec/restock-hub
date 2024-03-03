@@ -66,6 +66,20 @@ class UpdateTransactionService {
         quantity,
         totalValue,
       },
+      include: {
+        buyer: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        supplier: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
 
     return updatedTransaction;

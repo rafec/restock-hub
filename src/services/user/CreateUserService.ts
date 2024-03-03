@@ -44,6 +44,14 @@ class CreateUserService {
         roleId,
         ...props,
       },
+      include: {
+        role: {
+          select: {
+            id: true,
+            roleName: true,
+          },
+        },
+      },
     });
 
     return createdUser;

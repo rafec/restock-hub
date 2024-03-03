@@ -33,6 +33,20 @@ class UpdateStockService {
     const updatedStock = await prisma.stock.update({
       where: { id: { supplierId, productId } },
       data: { quantity },
+      include: {
+        supplier: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        product: {
+          select: {
+            id: true,
+            productName: true,
+          },
+        },
+      },
     });
 
     return updatedStock;

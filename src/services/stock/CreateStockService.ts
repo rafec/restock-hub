@@ -49,6 +49,20 @@ class CreateStockService {
         productId,
         quantity,
       },
+      include: {
+        supplier: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        product: {
+          select: {
+            id: true,
+            productName: true,
+          },
+        },
+      },
     });
 
     return createdStock;

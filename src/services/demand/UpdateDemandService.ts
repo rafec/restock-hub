@@ -56,6 +56,14 @@ class UpdateDemandService {
         keywords: keywords ? { set: keywords } : undefined,
         status,
       },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
 
     return updatedDemand;

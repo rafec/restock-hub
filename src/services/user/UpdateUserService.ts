@@ -66,6 +66,14 @@ class UpdateUserService {
         address,
         roleId,
       },
+      include: {
+        role: {
+          select: {
+            id: true,
+            roleName: true,
+          },
+        },
+      },
     });
 
     return updatedUser;
