@@ -1,27 +1,49 @@
 import prisma from "lib/prisma";
 
 interface IStockRequest {
-  supplierId: string;
-  productId: string;
+  supplierId?: string;
+  productId?: string;
   quantity?: number;
 }
 
 class UpdateStockService {
-  async execute({ supplierId, productId, quantity }: IStockRequest) {
-    if (!supplierId || !productId) {
-      throw new Error("Supplier ID and/or product ID are invalid.");
-    }
-
+  async execute(
+    currentSupplierId: string,
+    currentProductId: string,
+    { supplierId, productId, quantity }: IStockRequest,
+  ) {
     const stockEntryExists = await prisma.stock.findUnique({
       where: {
         id: {
-          supplierId,
-          productId,
+          supplierId: currentSupplierId,
+          productId: currentProductId,
         },
       },
     });
     if (!stockEntryExists) {
       throw new Error("Stock entry not found.");
+    }
+
+    if (supplierId) {
+      const newSupplierExists = await prisma.user.findUnique({
+        where: { id: supplierId },
+      });
+      if (!newSupplierExists) {
+        throw new Error(
+          "The supplier that will replace the current supplier was not found.",
+        );
+      }
+    }
+
+    if (productId) {
+      const newProductExists = await prisma.product.findUnique({
+        where: { id: productId },
+      });
+      if (!newProductExists) {
+        throw new Error(
+          "The product that will replace the current product was not found.",
+        );
+      }
     }
 
     if (quantity) {
@@ -31,8 +53,17 @@ class UpdateStockService {
     }
 
     const updatedStock = await prisma.stock.update({
-      where: { id: { supplierId, productId } },
-      data: { quantity },
+      where: {
+        id: {
+          supplierId: currentSupplierId,
+          productId: currentProductId,
+        },
+      },
+      data: {
+        supplierId,
+        productId,
+        quantity,
+      },
       include: {
         supplier: {
           select: {

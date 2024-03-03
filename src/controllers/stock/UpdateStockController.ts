@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { UpdateStockService } from "services/stock/UpdateStockService";
 
 interface IStockRequest {
+  supplierId?: string;
+  productId?: string;
   quantity?: number;
 }
 
@@ -12,11 +14,13 @@ class UpdateStockController {
       const stockProps: IStockRequest = request.body;
       const updateStockService = new UpdateStockService();
 
-      const updatedStock = await updateStockService.execute({
+      const updatedStock = await updateStockService.execute(
         supplierId,
         productId,
-        ...stockProps,
-      });
+        {
+          ...stockProps,
+        },
+      );
 
       return response.status(200).json({
         message: "Succesfull operation. Stock updated.",
