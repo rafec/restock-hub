@@ -28,7 +28,7 @@ class CreateUserService {
 
     const role = await prisma.role.findUnique({ where: { id: roleId } });
     if (!role) {
-      throw new Error("User not found.");
+      throw new Error("Role not found.");
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });

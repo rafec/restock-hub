@@ -8,8 +8,21 @@ interface IStockRequest {
 
 class CreateStockService {
   async execute({ supplierId, productId, quantity }: IStockRequest) {
-    if (!supplierId || !productId || !quantity) {
+    console.log(quantity);
+    if (!supplierId || !productId || isNaN(quantity)) {
       throw new Error("Supplier ID, product ID, and quantity are required.");
+    }
+
+    const stockEntryAlreadyExists = await prisma.stock.findFirst({
+      where: {
+        supplierId,
+        productId,
+      },
+    });
+    if (stockEntryAlreadyExists) {
+      throw new Error(
+        "Stock entry already exists for this supplier and product.",
+      );
     }
 
     const supplierExists = await prisma.user.findUnique({
@@ -26,20 +39,8 @@ class CreateStockService {
       throw new Error("Product not found.");
     }
 
-    if (quantity <= 0 || isNaN(quantity)) {
-      throw new Error("Quantity must be a positive number.");
-    }
-
-    const stockEntryAlreadyExists = await prisma.stock.findFirst({
-      where: {
-        supplierId,
-        productId,
-      },
-    });
-    if (stockEntryAlreadyExists) {
-      throw new Error(
-        "Stock entry already exists for this supplier and product.",
-      );
+    if (quantity < 0 || !Number.isInteger(quantity)) {
+      throw new Error("Quantity must be an integer, and can't be negative.");
     }
 
     const createdStock = await prisma.stock.create({

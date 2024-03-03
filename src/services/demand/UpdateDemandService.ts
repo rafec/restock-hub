@@ -10,10 +10,6 @@ interface IDemandRequest {
 
 class UpdateDemandService {
   async execute({ id, userId, description, keywords, status }: IDemandRequest) {
-    if (!id) {
-      throw new Error("Demand ID is required.");
-    }
-
     const existingDemand = await prisma.demand.findUnique({ where: { id } });
     if (!existingDemand) {
       throw new Error("Demand not found.");
@@ -28,7 +24,7 @@ class UpdateDemandService {
       }
     }
 
-    if (description && (description.length < 3 || description.length > 255)) {
+    if (description && (description.length < 5 || description.length > 255)) {
       throw new Error("Description must be between 3 and 255 characters long.");
     }
 
@@ -43,6 +39,13 @@ class UpdateDemandService {
       //     );
       //   }
       // }
+    }
+
+    if (status) {
+      const validStatusValues = ["pending", "approved", "rejected"];
+      if (!validStatusValues.includes(status)) {
+        throw new Error("Invalid status value.");
+      }
     }
 
     const updatedDemand = await prisma.demand.update({
