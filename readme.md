@@ -92,6 +92,24 @@
 
    - A section where users can find FAQs, contact support, or access help documentation.
 
+### Setuping prisma databases (rough draft)
+
+```properties
+> npx prisma generate --schema prisma/main-database/schema.prisma
+```
+
+```properties
+> npx prisma generate --schema prisma/test-database/schema-test.prisma
+```
+
+```properties
+> npx prisma migrate dev --name init-main-database --schema prisma/main-database/schema.prisma
+```
+
+```properties
+> npx prisma migrate dev --name init-test-database --schema prisma/test-database/schema-test.prisma
+```
+
 ## Must fix:
 
 - ...
