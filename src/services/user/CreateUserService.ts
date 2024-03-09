@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import prisma from "lib/prisma";
 
 interface IUserRequest {
@@ -12,7 +13,10 @@ interface IUserRequest {
 }
 
 class CreateUserService {
-  async execute({ name, email, password, roleId, ...props }: IUserRequest) {
+  async execute(
+    { name, email, password, roleId, ...props }: IUserRequest,
+    client: PrismaClient = prisma,
+  ) {
     if (!name || !email || !password || !roleId) {
       throw new Error("Name, email, password, and roleId are required.");
     }
@@ -26,17 +30,17 @@ class CreateUserService {
       throw new Error("Password must be at least 8 characters long.");
     }
 
-    const role = await prisma.role.findUnique({ where: { id: roleId } });
+    const role = await client.role.findUnique({ where: { id: roleId } });
     if (!role) {
       throw new Error("Role not found.");
     }
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await client.user.findUnique({ where: { email } });
     if (existingUser) {
       throw new Error("Email address is already in use.");
     }
 
-    const createdUser = await prisma.user.create({
+    const createdUser = await client.user.create({
       data: {
         name,
         email,
