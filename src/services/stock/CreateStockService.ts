@@ -1,4 +1,5 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "src/lib/testPrisma";
 
 interface IStockRequest {
   supplierId: string;
@@ -7,13 +8,16 @@ interface IStockRequest {
 }
 
 class CreateStockService {
-  async execute({ supplierId, productId, quantity }: IStockRequest) {
+  async execute(
+    { supplierId, productId, quantity }: IStockRequest,
+    client: PrismaClient = testPrisma,
+  ) {
     console.log(quantity);
     if (!supplierId || !productId || isNaN(quantity)) {
       throw new Error("Supplier ID, product ID, and quantity are required.");
     }
 
-    const stockEntryAlreadyExists = await prisma.stock.findFirst({
+    const stockEntryAlreadyExists = await client.stock.findFirst({
       where: {
         supplierId,
         productId,
@@ -25,14 +29,14 @@ class CreateStockService {
       );
     }
 
-    const supplierExists = await prisma.user.findUnique({
+    const supplierExists = await client.user.findUnique({
       where: { id: supplierId },
     });
     if (!supplierExists) {
       throw new Error("Supplier not found.");
     }
 
-    const productExists = await prisma.product.findUnique({
+    const productExists = await client.product.findUnique({
       where: { id: productId },
     });
     if (!productExists) {
@@ -43,7 +47,7 @@ class CreateStockService {
       throw new Error("Quantity must be an integer, and can't be negative.");
     }
 
-    const createdStock = await prisma.stock.create({
+    const createdStock = await client.stock.create({
       data: {
         supplierId,
         productId,
