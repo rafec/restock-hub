@@ -62,4 +62,77 @@ describe("POST /stock", () => {
     expect(stock.productId).toBe(newStock.productId);
     expect(stock.quantity).toBe(newStock.quantity);
   });
+
+  it("Should throw an error when stock entry already exists", async () => {
+    const newStock = {
+      supplierId: supplier.id,
+      productId: product.id,
+      quantity: 5,
+    };
+
+    const existingStock = await createStockService.execute(
+      newStock,
+      testPrisma,
+    );
+
+    const newAlreadyExistingStock = {
+      supplierId: supplier.id,
+      productId: product.id,
+      quantity: 10,
+    };
+
+    await expect(
+      createStockService.execute(newAlreadyExistingStock, testPrisma),
+    ).rejects.toThrow(
+      "Stock entry already exists for this supplier and product.",
+    );
+  });
+
+  it("Should throw an error when required fields are missing", async () => {
+    const newInvalidStock: IStockRequest = {
+      supplierId: supplier.id,
+      productId: "",
+      quantity: 5,
+    };
+
+    await expect(
+      createStockService.execute(newInvalidStock, testPrisma),
+    ).rejects.toThrow("Supplier ID, product ID, and quantity are required.");
+  });
+
+  it("Should throw an error when supplier dont exists", async () => {
+    const newInvalidSupplierIdStock: IStockRequest = {
+      supplierId: "invalid-supplier-id",
+      productId: product.id,
+      quantity: 5,
+    };
+
+    await expect(
+      createStockService.execute(newInvalidSupplierIdStock, testPrisma),
+    ).rejects.toThrow("Supplier not found.");
+  });
+
+  it("Should throw an error when product dont exists", async () => {
+    const newInvalidSupplierIdStock: IStockRequest = {
+      supplierId: supplier.id,
+      productId: "invalid-product-id",
+      quantity: 5,
+    };
+
+    await expect(
+      createStockService.execute(newInvalidSupplierIdStock, testPrisma),
+    ).rejects.toThrow("Product not found.");
+  });
+
+  it("Should throw an error when quantity < 0 and is not integer", async () => {
+    const newInvalidQuantityStock: IStockRequest = {
+      supplierId: supplier.id,
+      productId: product.id,
+      quantity: -1,
+    };
+
+    await expect(
+      createStockService.execute(newInvalidQuantityStock, testPrisma),
+    ).rejects.toThrow("Quantity must be an integer, and can't be negative.");
+  });
 });
