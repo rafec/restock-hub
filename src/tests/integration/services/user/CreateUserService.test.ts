@@ -34,7 +34,7 @@ describe("POST /user", () => {
   });
 
   it("Should create a new user", async () => {
-    const newUser = {
+    const newUser: IUserRequest = {
       name: "Test user",
       email: "test-user@mail.com",
       password: "password",

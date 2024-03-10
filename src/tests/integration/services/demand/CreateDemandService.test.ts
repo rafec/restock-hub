@@ -41,7 +41,7 @@ describe("POST /demand", () => {
   });
 
   it("Should create a new demand", async () => {
-    const newDemand = {
+    const newDemand: IDemandRequest = {
       userId: user.id,
       description: "Test demand",
       keywords: ["test", "demand"],

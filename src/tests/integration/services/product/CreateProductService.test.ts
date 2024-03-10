@@ -57,7 +57,7 @@ describe("POST /product", () => {
   });
 
   it("Should throw an error when price < 0 or is not a number", async () => {
-    const newInvalidPriceProduct = {
+    const newInvalidPriceProduct: IProductRequest = {
       productName: "Invalid price product",
       price: -1,
     };
@@ -68,7 +68,7 @@ describe("POST /product", () => {
   });
 
   it("Should throw an error when description > 1000 characters", async () => {
-    const newInvalidDescriptionProduct = {
+    const newInvalidDescriptionProduct: IProductRequest = {
       productName: "Invalid description product",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices vitae auctor eu augue ut lectus arcu. Sed id semper risus in hendrerit gravida. Mi quis hendrerit dolor magna eget. Mattis aliquam faucibus purus in massa tempor nec feugiat. Velit euismod in pellentesque massa placerat duis ultricies lacus sed. Metus vulputate eu scelerisque felis. Nec tincidunt praesent semper feugiat nibh. Vel facilisis volutpat est velit egestas dui. Ultrices in iaculis nunc sed augue lacus viverra vitae. Congue mauris rhoncus aenean vel elit. Turpis egestas integer eget aliquet nibh. Tristique sollicitudin nibh sit amet commodo nulla facilisi nullam. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec Sed tempus urna et pharetra pharetra. Malesuada bibendum arcu vitae elementum curabitur. Diam quis enim lobortis scelerisque fermentum dui faucibus in ornare. Aenean euismod elementum nisi quis eleifend quam adipiscing vitae. Sit amet venenatis urna cursus eget",

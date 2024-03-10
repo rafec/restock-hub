@@ -64,7 +64,7 @@ describe("POST /stock", () => {
   });
 
   it("Should throw an error when stock entry already exists", async () => {
-    const newStock = {
+    const newStock: IStockRequest = {
       supplierId: supplier.id,
       productId: product.id,
       quantity: 5,
@@ -75,7 +75,7 @@ describe("POST /stock", () => {
       testPrisma,
     );
 
-    const newAlreadyExistingStock = {
+    const newAlreadyExistingStock: IStockRequest = {
       supplierId: supplier.id,
       productId: product.id,
       quantity: 10,
