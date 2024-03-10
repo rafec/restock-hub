@@ -23,7 +23,7 @@ describe("POST /user", () => {
   beforeEach(async () => {
     role = await testPrisma.role.create({
       data: {
-        roleName: "test-role",
+        roleName: "test-user-role",
       },
     });
   });

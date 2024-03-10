@@ -27,4 +27,16 @@ describe("POST /role", () => {
     expect(role.id).toBeDefined();
     expect(role.roleName).toBe(newRole.roleName);
   });
+
+  it("Should throw an error when role already exists", async () => {
+    const newRole = {
+      roleName: "test-existing-role",
+    };
+
+    const existingRole = await createRoleService.execute(newRole, testPrisma);
+
+    await expect(
+      createRoleService.execute(newRole, testPrisma),
+    ).rejects.toThrow("Role already exists.");
+  });
 });
