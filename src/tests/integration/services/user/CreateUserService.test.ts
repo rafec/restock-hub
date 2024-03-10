@@ -41,14 +41,7 @@ describe("POST /user", () => {
       roleId: role.id,
     };
 
-    const userProps: IUserRequest = newUser;
-
-    const user = await createUserService.execute(
-      {
-        ...userProps,
-      },
-      testPrisma,
-    );
+    const user = await createUserService.execute(newUser, testPrisma);
 
     expect(user).toBeDefined();
     expect(user.id).toBeDefined();
