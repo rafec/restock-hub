@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import prisma from "lib/prisma";
+import testPrisma from "lib/testPrisma";
 
 interface IUserRequest {
   name: string;
@@ -15,7 +15,7 @@ interface IUserRequest {
 class CreateUserService {
   async execute(
     { name, email, password, roleId, ...props }: IUserRequest,
-    client: PrismaClient = prisma,
+    client: PrismaClient = testPrisma,
   ) {
     if (!name || !email || !password || !roleId) {
       throw new Error("Name, email, password, and roleId are required.");
