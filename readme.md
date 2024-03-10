@@ -112,4 +112,4 @@
 
 ## Must fix:
 
-- ...
+- [Project Issues](https://github.com/rafec/restock-hub/issues)
