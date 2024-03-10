@@ -1,4 +1,5 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "src/lib/testPrisma";
 
 interface IProductRequest {
   productName: string;
@@ -7,7 +8,10 @@ interface IProductRequest {
 }
 
 class CreateProductService {
-  async execute({ productName, description, price }: IProductRequest) {
+  async execute(
+    { productName, description, price }: IProductRequest,
+    client: PrismaClient = testPrisma,
+  ) {
     if (!productName || !price) {
       throw new Error("Product name and price are required.");
     }
@@ -26,7 +30,7 @@ class CreateProductService {
       throw new Error("Description must be less than 1000 characters long.");
     }
 
-    const createdProduct = await prisma.product.create({
+    const createdProduct = await client.product.create({
       data: {
         productName,
         description,

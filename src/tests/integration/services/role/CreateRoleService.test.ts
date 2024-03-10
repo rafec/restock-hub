@@ -17,7 +17,7 @@ describe("POST /role", () => {
   });
 
   it("Should create a new role", async () => {
-    const newRole = {
+    const newRole: IRoleRequest = {
       roleName: "test-role",
     };
 
@@ -29,7 +29,7 @@ describe("POST /role", () => {
   });
 
   it("Should throw an error when role already exists", async () => {
-    const newRole = {
+    const newRole: IRoleRequest = {
       roleName: "test-existing-role",
     };
 
