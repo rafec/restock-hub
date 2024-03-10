@@ -1,5 +1,5 @@
 import testPrisma from "lib/testPrisma";
-import { CreateRoleService } from "src/services/role/CreateRoleService";
+import { CreateRoleService } from "services/role/CreateRoleService";
 
 describe("POST /role", () => {
   interface IRoleRequest {

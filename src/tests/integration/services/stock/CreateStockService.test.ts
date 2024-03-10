@@ -1,5 +1,5 @@
-import testPrisma from "src/lib/testPrisma";
-import { CreateStockService } from "src/services/stock/CreateStockService";
+import testPrisma from "lib/testPrisma";
+import { CreateStockService } from "services/stock/CreateStockService";
 
 describe("POST /stock", () => {
   interface IStockRequest {

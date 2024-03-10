@@ -1,5 +1,5 @@
-import testPrisma from "src/lib/testPrisma";
-import { CreateProductService } from "src/services/product/CreateProductService";
+import testPrisma from "lib/testPrisma";
+import { CreateProductService } from "services/product/CreateProductService";
 
 describe("POST /product", () => {
   interface IProductRequest {

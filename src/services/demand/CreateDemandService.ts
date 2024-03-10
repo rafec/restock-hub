@@ -1,4 +1,5 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "src/lib/testPrisma";
 
 interface IDemandRequest {
   userId: string;
@@ -8,14 +9,17 @@ interface IDemandRequest {
 }
 
 class CreateDemandService {
-  async execute({ userId, description, keywords, status }: IDemandRequest) {
+  async execute(
+    { userId, description, keywords, status }: IDemandRequest,
+    client: PrismaClient = testPrisma,
+  ) {
     if (!userId || !description || !keywords || !status) {
       throw new Error(
         "User ID, description, keywords, and status are required.",
       );
     }
 
-    const userExists = await prisma.user.findUnique({ where: { id: userId } });
+    const userExists = await client.user.findUnique({ where: { id: userId } });
     if (!userExists) {
       throw new Error("User not found.");
     }
@@ -33,7 +37,7 @@ class CreateDemandService {
       throw new Error("Invalid status value.");
     }
 
-    const createdDemand = await prisma.demand.create({
+    const createdDemand = await client.demand.create({
       data: {
         userId,
         description,
