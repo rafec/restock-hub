@@ -89,7 +89,7 @@ describe("POST /user", () => {
     ).rejects.toThrow("Password must be at least 8 characters long.");
   });
 
-  it("Should throw an error when role dont exists", async () => {
+  it("Should throw an error when role doesnt exists", async () => {
     const newInvalidRoleIdUser: IUserRequest = {
       name: "Invalid role user",
       email: "invalidroleuser@mail.com",

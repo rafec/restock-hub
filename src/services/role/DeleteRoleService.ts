@@ -1,28 +1,24 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 class DeleteRoleService {
-  async execute(id: string) {
-    const roleExists = await prisma.role.findUnique({
+  async execute(id: string, client: PrismaClient = testPrisma) {
+    const roleExists = await client.role.findUnique({
       where: {
         id,
       },
     });
-
-    if (!id) {
-      throw new Error("The ID informed is invalid.");
-    }
-
     if (!roleExists) {
       throw new Error("Role not found.");
     }
 
-    const deletedRole = await prisma.role.delete({
+    const deletedRole = await client.role.delete({
       where: {
         id,
       },
     });
 
-    const roleAfterDeletion = await prisma.role.findUnique({
+    const roleAfterDeletion = await client.role.findUnique({
       where: {
         id,
       },

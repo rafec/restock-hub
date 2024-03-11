@@ -98,7 +98,7 @@ describe("POST /transaction", () => {
     );
   });
 
-  it("Should throw an error when buyer dont exists", async () => {
+  it("Should throw an error when buyer doesnt exists", async () => {
     const newInvalidBuyerIdTransaction: ITransactionRequest = {
       buyerId: "invalid-buyer-id",
       supplierId: supplier.id,
@@ -115,7 +115,7 @@ describe("POST /transaction", () => {
     ).rejects.toThrow("Buyer not found.");
   });
 
-  it("Should throw an error when supplier dont exists", async () => {
+  it("Should throw an error when supplier doesnt exists", async () => {
     const newInvalidSupplierIdTransaction: ITransactionRequest = {
       buyerId: buyer.id,
       supplierId: "invalid-supplier-id",
@@ -132,7 +132,7 @@ describe("POST /transaction", () => {
     ).rejects.toThrow("Supplier not found.");
   });
 
-  it("Should throw an error when product dont exists", async () => {
+  it("Should throw an error when product doesnt exists", async () => {
     const newInvalidProductIdTransaction: ITransactionRequest = {
       buyerId: buyer.id,
       supplierId: supplier.id,

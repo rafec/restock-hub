@@ -100,7 +100,7 @@ describe("POST /stock", () => {
     ).rejects.toThrow("Supplier ID, product ID, and quantity are required.");
   });
 
-  it("Should throw an error when supplier dont exists", async () => {
+  it("Should throw an error when supplier doesnt exists", async () => {
     const newInvalidSupplierIdStock: IStockRequest = {
       supplierId: "invalid-supplier-id",
       productId: product.id,
@@ -112,7 +112,7 @@ describe("POST /stock", () => {
     ).rejects.toThrow("Supplier not found.");
   });
 
-  it("Should throw an error when product dont exists", async () => {
+  it("Should throw an error when product doesnt exists", async () => {
     const newInvalidSupplierIdStock: IStockRequest = {
       supplierId: supplier.id,
       productId: "invalid-product-id",

@@ -76,7 +76,7 @@ describe("POST /demand", () => {
     );
   });
 
-  it("Should throw an error when user dont exists", async () => {
+  it("Should throw an error when user doesnt exists", async () => {
     const newInvalidUserIdDemand: IDemandRequest = {
       userId: "invalid-user-id",
       description: "Test description",
