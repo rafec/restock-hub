@@ -1,4 +1,5 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 interface IStockRequest {
   supplierId: string;
@@ -6,8 +7,11 @@ interface IStockRequest {
 }
 
 class DeleteStockService {
-  async execute({ supplierId, productId }: IStockRequest) {
-    const stockEntryExists = await prisma.stock.findUnique({
+  async execute(
+    { supplierId, productId }: IStockRequest,
+    client: PrismaClient = testPrisma,
+  ) {
+    const stockEntryExists = await client.stock.findUnique({
       where: {
         id: {
           supplierId,
@@ -15,14 +19,21 @@ class DeleteStockService {
         },
       },
     });
-
     if (!stockEntryExists) {
       throw new Error("Stock entry not found.");
     }
 
-    const deletedStock = await prisma.stock.delete({
+    const deletedStock = await client.stock.delete({
       where: { id: { supplierId, productId } },
     });
+
+    const stockAfterDeletion = await client.stock.findUnique({
+      where: { id: { supplierId, productId } },
+    });
+
+    if (stockAfterDeletion) {
+      throw new Error("Failed to delete stock.");
+    }
 
     return deletedStock;
   }

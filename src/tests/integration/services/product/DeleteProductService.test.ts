@@ -2,7 +2,6 @@ import testPrisma from "lib/testPrisma";
 import { DeleteProductService } from "services/product/DeleteProductService";
 
 describe("DELETE /product/:id", () => {
-  let role;
   let product;
   let deleteProductService: DeleteProductService;
 
@@ -21,7 +20,6 @@ describe("DELETE /product/:id", () => {
 
   afterEach(async () => {
     await testPrisma.product.deleteMany();
-    await testPrisma.role.deleteMany();
   });
 
   it("Should delete a product", async () => {
