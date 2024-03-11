@@ -1,8 +1,9 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 class DeleteProductService {
-  async execute(id: string) {
-    const productExists = await prisma.product.findUnique({
+  async execute(id: string, client: PrismaClient = testPrisma) {
+    const productExists = await client.product.findUnique({
       where: {
         id,
       },
@@ -16,13 +17,13 @@ class DeleteProductService {
       throw new Error("Product not found.");
     }
 
-    const deletedProduct = await prisma.product.delete({
+    const deletedProduct = await client.product.delete({
       where: {
         id,
       },
     });
 
-    const productAfterDeletion = await prisma.product.findUnique({
+    const productAfterDeletion = await client.product.findUnique({
       where: {
         id,
       },
