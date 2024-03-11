@@ -1,35 +1,31 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 class DeleteUserService {
-  async execute(id: string) {
-    const userExists = await prisma.user.findUnique({
+  async execute(id: string, client: PrismaClient = testPrisma) {
+    const userExists = await client.user.findUnique({
       where: {
         id,
       },
     });
-
-    if (!id) {
-      throw new Error("The ID informed is invalid.");
-    }
-
     if (!userExists) {
       throw new Error("User not found.");
     }
 
-    const deletedUser = await prisma.user.delete({
+    const deletedUser = await client.user.delete({
       where: {
         id,
       },
     });
 
-    const userAfterDeletion = await prisma.user.findUnique({
+    const userAfterDeletion = await client.user.findUnique({
       where: {
         id,
       },
     });
 
     if (userAfterDeletion) {
-      throw new Error("Failed to delete user. User deleted.");
+      throw new Error("Failed to delete user.");
     }
 
     return deletedUser;

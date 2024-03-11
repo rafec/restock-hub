@@ -27,9 +27,6 @@ describe("DELETE /role/:id", () => {
       where: { id: roleId },
     });
 
-    console.log(deletedRole);
-    console.log(roleAfterDeletion);
-
     expect(deletedRole).toBeDefined();
     expect(deletedRole.id).toBe(roleId);
     expect(roleAfterDeletion).toBeNull();
