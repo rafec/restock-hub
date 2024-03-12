@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import testPrisma from "src/lib/testPrisma";
+import testPrisma from "lib/testPrisma";
 
 class FindAllUsersService {
   async execute(client: PrismaClient = testPrisma) {
