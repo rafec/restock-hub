@@ -1,8 +1,9 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "src/lib/testPrisma";
 
 class FindAllUsersService {
-  async execute() {
-    const allUsers = await prisma.user.findMany({
+  async execute(client: PrismaClient = testPrisma) {
+    const allUsers = await client.user.findMany({
       include: {
         role: {
           select: {
