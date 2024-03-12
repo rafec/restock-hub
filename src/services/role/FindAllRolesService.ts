@@ -1,8 +1,9 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 class FindAllRolesService {
-  async execute() {
-    const allRoles = await prisma.role.findMany();
+  async execute(client: PrismaClient = testPrisma) {
+    const allRoles = await client.role.findMany();
 
     if (allRoles.length === 0) return "There is no roles registered yet.";
 
