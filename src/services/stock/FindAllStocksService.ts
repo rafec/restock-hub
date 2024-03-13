@@ -1,8 +1,9 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 class FindAllStocksService {
-  async execute() {
-    const allStocks = await prisma.stock.findMany({
+  async execute(client: PrismaClient = testPrisma) {
+    const allStocks = await client.stock.findMany({
       include: {
         supplier: {
           select: {
