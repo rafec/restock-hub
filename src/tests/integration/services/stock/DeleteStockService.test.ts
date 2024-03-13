@@ -53,8 +53,8 @@ describe("DELETE /stock/:id", () => {
 
   it("Should delete a stock", async () => {
     const stockId = {
-      supplierId: supplier.id,
-      productId: product.id,
+      supplierId: stock.supplierId,
+      productId: stock.productId,
     };
     const deletedStock = await deleteStockService.execute(stockId, testPrisma);
 

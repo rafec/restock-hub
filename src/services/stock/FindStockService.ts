@@ -1,12 +1,16 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 interface IStockRequest {
   supplierId: string;
   productId: string;
 }
 class FindStockService {
-  async execute({ supplierId, productId }: IStockRequest) {
-    const stock = await prisma.stock.findUnique({
+  async execute(
+    { supplierId, productId }: IStockRequest,
+    client: PrismaClient = testPrisma,
+  ) {
+    const stock = await client.stock.findUnique({
       where: { id: { supplierId, productId } },
       include: {
         supplier: {
