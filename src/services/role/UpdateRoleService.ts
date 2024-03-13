@@ -1,4 +1,5 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 interface IRoleRequest {
   id: string;
@@ -6,8 +7,11 @@ interface IRoleRequest {
 }
 
 class UpdateRoleService {
-  async execute({ id, roleName }: IRoleRequest) {
-    const roleExists = await prisma.role.findUnique({
+  async execute(
+    { id, roleName }: IRoleRequest,
+    client: PrismaClient = testPrisma,
+  ) {
+    const roleExists = await client.role.findUnique({
       where: {
         id,
       },
@@ -16,16 +20,18 @@ class UpdateRoleService {
       throw new Error("Role not found.");
     }
 
-    const roleAlreadyExists = await prisma.role.findUnique({
-      where: {
-        roleName,
-      },
-    });
-    if (roleAlreadyExists) {
-      throw new Error("Role name already exists.");
+    if (roleName) {
+      const roleAlreadyExists = await client.role.findUnique({
+        where: {
+          roleName,
+        },
+      });
+      if (roleAlreadyExists) {
+        throw new Error("Role already exists.");
+      }
     }
 
-    const updatedRole = await prisma.role.update({
+    const updatedRole = await client.role.update({
       where: {
         id,
       },
