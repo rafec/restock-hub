@@ -1,8 +1,9 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 class FindDemandService {
-  async execute(id: string) {
-    const demand = await prisma.demand.findUnique({
+  async execute(id: string, client: PrismaClient = testPrisma) {
+    const demand = await client.demand.findUnique({
       where: { id },
       include: {
         user: {
