@@ -1,4 +1,5 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 interface IUserRequest {
   id: string;
@@ -15,18 +16,21 @@ interface IUserRequest {
 }
 
 class UpdateUserService {
-  async execute({
-    id,
-    name,
-    email,
-    password,
-    country,
-    state,
-    city,
-    address,
-    roleId,
-  }: IUserRequest) {
-    const userExists = await prisma.user.findUnique({
+  async execute(
+    {
+      id,
+      name,
+      email,
+      password,
+      country,
+      state,
+      city,
+      address,
+      roleId,
+    }: IUserRequest,
+    client: PrismaClient = testPrisma,
+  ) {
+    const userExists = await client.user.findUnique({
       where: {
         id,
       },
@@ -35,26 +39,32 @@ class UpdateUserService {
       throw new Error("User not found.");
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      throw new Error("Invalid email address format.");
+    if (email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        throw new Error("Invalid email address format.");
+      }
+
+      const existingUser = await client.user.findUnique({ where: { email } });
+      if (existingUser) {
+        throw new Error("Email address is already in use.");
+      }
     }
 
-    if (password.length < 8) {
-      throw new Error("Password must be at least 8 characters long.");
+    if (password) {
+      if (password.length < 8) {
+        throw new Error("Password must be at least 8 characters long.");
+      }
     }
 
-    const role = await prisma.role.findUnique({ where: { id: roleId } });
-    if (!role) {
-      throw new Error("Role not found.");
+    if (roleId) {
+      const role = await client.role.findUnique({ where: { id: roleId } });
+      if (!role) {
+        throw new Error("Role not found.");
+      }
     }
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) {
-      throw new Error("Email address is already in use.");
-    }
-
-    const updatedUser = await prisma.user.update({
+    const updatedUser = await client.user.update({
       where: { id },
       data: {
         name,
