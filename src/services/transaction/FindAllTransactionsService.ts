@@ -1,8 +1,9 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 class FindAllTransactionsService {
-  async execute() {
-    const allTransactions = await prisma.transaction.findMany({
+  async execute(client: PrismaClient = testPrisma) {
+    const allTransactions = await client.transaction.findMany({
       include: {
         buyer: {
           select: {
