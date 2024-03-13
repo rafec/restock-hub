@@ -1,8 +1,9 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 class FindUserService {
-  async execute(id: string) {
-    const user = await prisma.user.findUnique({
+  async execute(id: string, client: PrismaClient = testPrisma) {
+    const user = await client.user.findUnique({
       where: { id },
       include: {
         role: {
