@@ -1,8 +1,9 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 class FindTransactionService {
-  async execute(id: string) {
-    const transaction = await prisma.transaction.findUnique({
+  async execute(id: string, client: PrismaClient = testPrisma) {
+    const transaction = await client.transaction.findUnique({
       where: { id },
       include: {
         buyer: {
@@ -21,7 +22,7 @@ class FindTransactionService {
     });
 
     if (!transaction) {
-      throw new Error("Transaction not found");
+      throw new Error("Transaction not found.");
     }
 
     return transaction;
