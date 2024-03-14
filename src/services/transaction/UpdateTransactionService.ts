@@ -1,8 +1,9 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 interface ITransactionRequest {
   id: string;
-  buyerId: string;
+  buyerId?: string;
   supplierId?: string;
   productId?: string;
   quantity?: number;
@@ -10,16 +11,26 @@ interface ITransactionRequest {
 }
 
 class UpdateTransactionService {
-  async execute({
-    id,
-    buyerId,
-    supplierId,
-    productId,
-    quantity,
-    totalValue,
-  }: ITransactionRequest) {
+  async execute(
+    {
+      id,
+      buyerId,
+      supplierId,
+      productId,
+      quantity,
+      totalValue,
+    }: ITransactionRequest,
+    client: PrismaClient = testPrisma,
+  ) {
+    const existingTransaction = await client.transaction.findUnique({
+      where: { id },
+    });
+    if (!existingTransaction) {
+      throw new Error("Transaction not found.");
+    }
+
     if (buyerId) {
-      const buyerExists = await prisma.user.findUnique({
+      const buyerExists = await client.user.findUnique({
         where: { id: buyerId },
       });
       if (!buyerExists) {
@@ -28,7 +39,7 @@ class UpdateTransactionService {
     }
 
     if (supplierId) {
-      const supplierExists = await prisma.user.findUnique({
+      const supplierExists = await client.user.findUnique({
         where: { id: supplierId },
       });
       if (!supplierExists) {
@@ -37,7 +48,7 @@ class UpdateTransactionService {
     }
 
     if (productId) {
-      const productExists = await prisma.product.findUnique({
+      const productExists = await client.product.findUnique({
         where: { id: productId },
       });
       if (!productExists) {
@@ -57,7 +68,7 @@ class UpdateTransactionService {
       }
     }
 
-    const updatedTransaction = await prisma.transaction.update({
+    const updatedTransaction = await client.transaction.update({
       where: { id },
       data: {
         buyerId,

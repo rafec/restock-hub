@@ -16,7 +16,7 @@ describe("DELETE /transaction/:id", () => {
   beforeEach(async () => {
     role = await testPrisma.role.create({
       data: {
-        roleName: "test-transaction-role",
+        roleName: "test-transaction-delete-role",
       },
     });
 

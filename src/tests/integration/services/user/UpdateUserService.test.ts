@@ -84,13 +84,13 @@ describe("PUT /user", () => {
   });
 
   it("Should throw an error when user already exists", async () => {
-    const newUser: IUserRequest = {
+    const updateUserProperties: IUserRequest = {
       id: user.id,
       email: user.email,
     };
 
     await expect(
-      updateUserService.execute(newUser, testPrisma),
+      updateUserService.execute(updateUserProperties, testPrisma),
     ).rejects.toThrow("Email address is already in use.");
   });
 

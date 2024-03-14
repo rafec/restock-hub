@@ -61,13 +61,13 @@ describe("PUT /role", () => {
   });
 
   it("Should throw an error when role already exists", async () => {
-    const newRole: IRoleRequest = {
+    const updateRoleProperties: IRoleRequest = {
       id: role.id,
       roleName: role.roleName,
     };
 
     await expect(
-      updateRoleService.execute(newRole, testPrisma),
+      updateRoleService.execute(updateRoleProperties, testPrisma),
     ).rejects.toThrow("Role already exists.");
   });
 
