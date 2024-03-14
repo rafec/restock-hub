@@ -29,7 +29,9 @@ describe("POST /product", () => {
     expect(product).toBeDefined();
     expect(product.id).toBeDefined();
     expect(product.productName).toBe(newProduct.productName);
-    expect(parseInt(product.price)).toBe(newProduct.price);
+    expect<String>(product.price.toString()).toBe<String>(
+      newProduct.price.toString(),
+    );
   });
 
   it("Should throw an error when required fields are missing", async () => {

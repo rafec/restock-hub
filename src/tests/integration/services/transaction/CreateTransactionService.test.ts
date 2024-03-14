@@ -79,7 +79,9 @@ describe("POST /transaction", () => {
     expect(transaction.buyerId).toBe(newTransaction.buyerId);
     expect(transaction.supplierId).toBe(newTransaction.supplierId);
     expect(transaction.quantity).toBe(newTransaction.quantity);
-    expect(parseInt(transaction.totalValue)).toBe(newTransaction.totalValue);
+    expect<String>(transaction.totalValue.toString()).toBe<String>(
+      newTransaction.totalValue.toString(),
+    );
   });
 
   it("Should throw an error when required fields are missing", async () => {
