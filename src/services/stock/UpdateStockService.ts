@@ -1,4 +1,5 @@
-import prisma from "lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 interface IStockRequest {
   supplierId?: string;
@@ -11,8 +12,9 @@ class UpdateStockService {
     currentSupplierId: string,
     currentProductId: string,
     { supplierId, productId, quantity }: IStockRequest,
+    client: PrismaClient = testPrisma,
   ) {
-    const stockEntryExists = await prisma.stock.findUnique({
+    const stockEntryExists = await client.stock.findUnique({
       where: {
         id: {
           supplierId: currentSupplierId,
@@ -24,8 +26,22 @@ class UpdateStockService {
       throw new Error("Stock entry not found.");
     }
 
+    if (supplierId && productId) {
+      const stockEntryAlreadyExists = await client.stock.findFirst({
+        where: {
+          supplierId,
+          productId,
+        },
+      });
+      if (stockEntryAlreadyExists) {
+        throw new Error(
+          "Stock entry already exists for this supplier and product.",
+        );
+      }
+    }
+
     if (supplierId) {
-      const newSupplierExists = await prisma.user.findUnique({
+      const newSupplierExists = await client.user.findUnique({
         where: { id: supplierId },
       });
       if (!newSupplierExists) {
@@ -36,7 +52,7 @@ class UpdateStockService {
     }
 
     if (productId) {
-      const newProductExists = await prisma.product.findUnique({
+      const newProductExists = await client.product.findUnique({
         where: { id: productId },
       });
       if (!newProductExists) {
@@ -52,7 +68,7 @@ class UpdateStockService {
       }
     }
 
-    const updatedStock = await prisma.stock.update({
+    const updatedStock = await client.stock.update({
       where: {
         id: {
           supplierId: currentSupplierId,
