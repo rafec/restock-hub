@@ -95,14 +95,14 @@ describe("PUT /user", () => {
   });
 
   it("Should throw an error when user doesnt exists", async () => {
-    const newUser: IUserRequest = {
+    const updateUserProperties: IUserRequest = {
       id: "invalid-id",
       name: "user-with-invalid-id",
       email: "invaliduser@mail.com",
     };
 
     await expect(
-      updateUserService.execute(newUser, testPrisma),
+      updateUserService.execute(updateUserProperties, testPrisma),
     ).rejects.toThrow("User not found.");
   });
 });

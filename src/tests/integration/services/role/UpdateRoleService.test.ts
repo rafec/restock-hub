@@ -72,13 +72,13 @@ describe("PUT /role", () => {
   });
 
   it("Should throw an error when role doesnt exists", async () => {
-    const newRole: IRoleRequest = {
+    const updateRoleProperties: IRoleRequest = {
       id: "invalid-id",
       roleName: "role-with-invalid-id",
     };
 
     await expect(
-      updateRoleService.execute(newRole, testPrisma),
+      updateRoleService.execute(updateRoleProperties, testPrisma),
     ).rejects.toThrow("Role not found.");
   });
 });

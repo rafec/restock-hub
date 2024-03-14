@@ -1,4 +1,5 @@
-import prisma from "src/lib/prisma";
+import { PrismaClient } from "@prisma/client";
+import testPrisma from "lib/testPrisma";
 
 interface IDemandRequest {
   id: string;
@@ -9,14 +10,17 @@ interface IDemandRequest {
 }
 
 class UpdateDemandService {
-  async execute({ id, userId, description, keywords, status }: IDemandRequest) {
-    const existingDemand = await prisma.demand.findUnique({ where: { id } });
+  async execute(
+    { id, userId, description, keywords, status }: IDemandRequest,
+    client: PrismaClient = testPrisma,
+  ) {
+    const existingDemand = await client.demand.findUnique({ where: { id } });
     if (!existingDemand) {
       throw new Error("Demand not found.");
     }
 
     if (userId) {
-      const userExists = await prisma.user.findUnique({
+      const userExists = await client.user.findUnique({
         where: { id: userId },
       });
       if (!userExists) {
@@ -48,7 +52,7 @@ class UpdateDemandService {
       }
     }
 
-    const updatedDemand = await prisma.demand.update({
+    const updatedDemand = await client.demand.update({
       where: { id },
       data: {
         userId,

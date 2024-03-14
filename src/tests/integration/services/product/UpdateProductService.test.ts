@@ -72,13 +72,13 @@ describe("PUT /product", () => {
   });
 
   it("Should throw an error when product doesnt exists", async () => {
-    const newProduct: IProductRequest = {
+    const updateProductProperties: IProductRequest = {
       id: "invalid-id",
       productName: "product-with-invalid-id",
     };
 
     await expect(
-      updateProductService.execute(newProduct, testPrisma),
+      updateProductService.execute(updateProductProperties, testPrisma),
     ).rejects.toThrow("Product not found.");
   });
 });
