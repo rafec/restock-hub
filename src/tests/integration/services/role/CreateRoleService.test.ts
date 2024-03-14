@@ -28,6 +28,16 @@ describe("POST /role", () => {
     expect(role.roleName).toBe(newRole.roleName);
   });
 
+  it("Should throw an error when required fields are missing", async () => {
+    const newInvalidRole: IRoleRequest = {
+      roleName: "",
+    };
+
+    await expect(
+      createRoleService.execute(newInvalidRole, testPrisma),
+    ).rejects.toThrow("Invalid role name.");
+  });
+
   it("Should throw an error when role already exists", async () => {
     const newRole: IRoleRequest = {
       roleName: "test-existing-role",
