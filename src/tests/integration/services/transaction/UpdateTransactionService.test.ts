@@ -142,4 +142,94 @@ describe("PUT /transaction", () => {
       updateTransactionService.execute(updateTransactionProperties, testPrisma),
     ).rejects.toThrow("Transaction not found.");
   });
+
+  it("Should throw an error when buyer doesnt exists", async () => {
+    const newInvalidBuyerIdTransaction: ITransactionRequest = {
+      id: transaction.id,
+      buyerId: "invalid-buyer-id",
+      supplierId: supplier.id,
+      productId: product.id,
+      quantity: 15,
+      totalValue: 3000,
+    };
+
+    await expect(
+      updateTransactionService.execute(
+        newInvalidBuyerIdTransaction,
+        testPrisma,
+      ),
+    ).rejects.toThrow("Buyer not found.");
+  });
+
+  it("Should throw an error when supplier doesnt exists", async () => {
+    const newInvalidSupplierIdTransaction: ITransactionRequest = {
+      id: transaction.id,
+      buyerId: buyer.id,
+      supplierId: "invalid-supplier-id",
+      productId: product.id,
+      quantity: 15,
+      totalValue: 3000,
+    };
+
+    await expect(
+      updateTransactionService.execute(
+        newInvalidSupplierIdTransaction,
+        testPrisma,
+      ),
+    ).rejects.toThrow("Supplier not found.");
+  });
+
+  it("Should throw an error when product doesnt exists", async () => {
+    const newInvalidProductIdTransaction: ITransactionRequest = {
+      id: transaction.id,
+      buyerId: buyer.id,
+      supplierId: supplier.id,
+      productId: "invalid-product-id",
+      quantity: 15,
+      totalValue: 3000,
+    };
+
+    await expect(
+      updateTransactionService.execute(
+        newInvalidProductIdTransaction,
+        testPrisma,
+      ),
+    ).rejects.toThrow("Product not found.");
+  });
+
+  it("Should throw an error when quantity <= 0 and is not integer", async () => {
+    const newInvalidQuantityTransaction: ITransactionRequest = {
+      id: transaction.id,
+      buyerId: buyer.id,
+      supplierId: supplier.id,
+      productId: product.id,
+      quantity: -1,
+      totalValue: 3000,
+    };
+
+    await expect(
+      updateTransactionService.execute(
+        newInvalidQuantityTransaction,
+        testPrisma,
+      ),
+    ).rejects.toThrow("Quantity must be a positive integer.");
+  });
+
+  it("Should throw an error when totalValue <= 0", async () => {
+    const newInvalidTotalValueTransaction: ITransactionRequest = {
+      id: transaction.id,
+      buyerId: buyer.id,
+      supplierId: supplier.id,
+      productId: product.id,
+      quantity: 15,
+      totalValue: -1,
+    };
+
+    await expect(
+      updateTransactionService.execute(
+        newInvalidTotalValueTransaction,
+        testPrisma,
+      ),
+    ).rejects.toThrow("Total value must be a positive decimal number.");
+  });
 });
