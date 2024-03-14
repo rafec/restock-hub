@@ -44,7 +44,7 @@ class CreateStockService {
     }
 
     if (quantity < 0 || !Number.isInteger(quantity)) {
-      throw new Error("Quantity must be an integer, and can't be negative.");
+      throw new Error("Quantity must be a positive integer.");
     }
 
     const createdStock = await client.stock.create({

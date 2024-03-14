@@ -158,4 +158,59 @@ describe("PUT /stock", () => {
       ),
     ).rejects.toThrow("Stock entry not found.");
   });
+
+  it("Should throw an error when supplier doesnt exists", async () => {
+    const newInvalidSupplierIdStock: IStockRequest = {
+      supplierId: "invalid-supplier-id",
+      productId: anotherProduct.id,
+      quantity: 5,
+    };
+
+    await expect(
+      updateStockService.execute(
+        currentSupplierId,
+        currentProductId,
+        newInvalidSupplierIdStock,
+        testPrisma,
+      ),
+    ).rejects.toThrow(
+      "The supplier that will replace the current supplier was not found.",
+    );
+  });
+
+  it("Should throw an error when product doesnt exists", async () => {
+    const newInvalidSupplierIdStock: IStockRequest = {
+      supplierId: anotherSupplier.id,
+      productId: "invalid-product-id",
+      quantity: 5,
+    };
+
+    await expect(
+      updateStockService.execute(
+        currentSupplierId,
+        currentProductId,
+        newInvalidSupplierIdStock,
+        testPrisma,
+      ),
+    ).rejects.toThrow(
+      "The product that will replace the current product was not found.",
+    );
+  });
+
+  it("Should throw an error when quantity < 0 and is not integer", async () => {
+    const newInvalidQuantityStock: IStockRequest = {
+      supplierId: anotherSupplier.id,
+      productId: anotherProduct.id,
+      quantity: -1,
+    };
+
+    await expect(
+      updateStockService.execute(
+        currentSupplierId,
+        currentProductId,
+        newInvalidQuantityStock,
+        testPrisma,
+      ),
+    ).rejects.toThrow("Quantity must be a positive integer.");
+  });
 });

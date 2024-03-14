@@ -133,6 +133,6 @@ describe("POST /stock", () => {
 
     await expect(
       createStockService.execute(newInvalidQuantityStock, testPrisma),
-    ).rejects.toThrow("Quantity must be an integer, and can't be negative.");
+    ).rejects.toThrow("Quantity must be a positive integer.");
   });
 });
