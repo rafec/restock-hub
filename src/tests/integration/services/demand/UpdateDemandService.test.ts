@@ -106,4 +106,60 @@ describe("PUT /demand", () => {
       updateDemandService.execute(updateDemandProperties, testPrisma),
     ).rejects.toThrow("Demand not found.");
   });
+
+  it("Should throw an error when user doesnt exists", async () => {
+    const newInvalidUserIdDemand: IDemandRequest = {
+      id: demand.id,
+      userId: "invalid-user-id",
+      description: "Test description",
+      keywords: ["test", "demand", "invalid-user"],
+      status: "pending",
+    };
+
+    await expect(
+      updateDemandService.execute(newInvalidUserIdDemand, testPrisma),
+    ).rejects.toThrow("User not found.");
+  });
+
+  it("Should throw an error when 5 > description > 255 characters", async () => {
+    const newInvalidDescriptionDemand: IDemandRequest = {
+      id: demand.id,
+      userId: user.id,
+      description: "Tes",
+      keywords: ["test", "demand", "invalid-description"],
+      status: "pending",
+    };
+
+    await expect(
+      updateDemandService.execute(newInvalidDescriptionDemand, testPrisma),
+    ).rejects.toThrow("Description must be between 5 and 255 characters long.");
+  });
+
+  it("Should throw an error when keywords is not a non-empty array", async () => {
+    const newInvalidKeywordsDemand: IDemandRequest = {
+      id: demand.id,
+      userId: user.id,
+      description: "Test keywords demand",
+      keywords: [],
+      status: "pending",
+    };
+
+    await expect(
+      updateDemandService.execute(newInvalidKeywordsDemand, testPrisma),
+    ).rejects.toThrow("Keywords must be provided as a non-empty array.");
+  });
+
+  it("Should throw an error when status is not an allowed value", async () => {
+    const newInvalidStatusDemand: IDemandRequest = {
+      id: demand.id,
+      userId: user.id,
+      description: "Test status demand",
+      keywords: ["test", "demand", "invalid-status"],
+      status: "invalid-status",
+    };
+
+    await expect(
+      updateDemandService.execute(newInvalidStatusDemand, testPrisma),
+    ).rejects.toThrow("Invalid status value.");
+  });
 });

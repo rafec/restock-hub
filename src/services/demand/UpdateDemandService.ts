@@ -29,7 +29,7 @@ class UpdateDemandService {
     }
 
     if (description && (description.length < 5 || description.length > 255)) {
-      throw new Error("Description must be between 3 and 255 characters long.");
+      throw new Error("Description must be between 5 and 255 characters long.");
     }
 
     if (keywords) {
