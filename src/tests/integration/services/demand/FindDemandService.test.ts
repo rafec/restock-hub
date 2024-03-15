@@ -3,6 +3,7 @@ import { FindDemandService } from "services/demand/FindDemandService";
 
 describe("GET /demand/:id", () => {
   let role;
+  let status;
   let user;
   let findDemandService;
 
@@ -13,6 +14,7 @@ describe("GET /demand/:id", () => {
   afterEach(async () => {
     await testPrisma.demand.deleteMany();
     await testPrisma.user.deleteMany();
+    await testPrisma.status.deleteMany();
     await testPrisma.role.deleteMany();
   });
 
@@ -21,7 +23,11 @@ describe("GET /demand/:id", () => {
       data: { roleName: "test-find-demand-role" },
     });
 
-    const user = await testPrisma.user.create({
+    status = await testPrisma.status.create({
+      data: { name: "test-find-demand-status" },
+    });
+
+    user = await testPrisma.user.create({
       data: {
         name: "Test User",
         email: "user@mail.com",
@@ -35,7 +41,7 @@ describe("GET /demand/:id", () => {
         userId: user.id,
         description: "Test find user demand.",
         keywords: ["test", "find", "demand"],
-        status: "pending",
+        statusId: status.id,
       },
     });
 
