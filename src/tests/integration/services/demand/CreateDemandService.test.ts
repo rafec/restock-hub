@@ -6,10 +6,11 @@ describe("POST /demand", () => {
     userId: string;
     description: string;
     keywords: string[];
-    status: string;
+    statusId: string;
   }
 
   let role;
+  let status;
   let user;
   let createDemandService: CreateDemandService;
 
@@ -19,9 +20,11 @@ describe("POST /demand", () => {
 
   beforeEach(async () => {
     role = await testPrisma.role.create({
-      data: {
-        roleName: "test-demand-role",
-      },
+      data: { roleName: "test-demand-role" },
+    });
+
+    status = await testPrisma.status.create({
+      data: { name: "test-demand-status" },
     });
 
     user = await testPrisma.user.create({
@@ -37,6 +40,7 @@ describe("POST /demand", () => {
   afterEach(async () => {
     await testPrisma.demand.deleteMany();
     await testPrisma.user.deleteMany();
+    await testPrisma.status.deleteMany();
     await testPrisma.role.deleteMany();
   });
 
@@ -45,20 +49,20 @@ describe("POST /demand", () => {
       userId: user.id,
       description: "Test demand",
       keywords: ["test", "demand"],
-      status: "pending",
+      statusId: status.id,
     };
 
-    const demand = await createDemandService.execute(newDemand, testPrisma);
+    const validStatusValues = await testPrisma.status.findMany();
+    console.log(validStatusValues);
 
-    console.log(demand.keywords);
-    console.log(newDemand.keywords);
+    const demand = await createDemandService.execute(newDemand, testPrisma);
 
     expect(demand).toBeDefined();
     expect(demand.id).toBeDefined();
     expect(demand.userId).toBe(newDemand.userId);
     expect(demand.description).toBe(newDemand.description);
     expect(demand.keywords).toStrictEqual(newDemand.keywords);
-    expect(demand.status).toBe(newDemand.status);
+    expect(demand.statusId).toBe(newDemand.statusId);
   });
 
   it("Should throw an error when required fields are missing", async () => {
@@ -66,13 +70,13 @@ describe("POST /demand", () => {
       userId: "",
       description: "",
       keywords: [],
-      status: "",
+      statusId: "",
     };
 
     await expect(
       createDemandService.execute(newInvalidDemand, testPrisma),
     ).rejects.toThrow(
-      "User ID, description, keywords, and status are required.",
+      "User ID, description, keywords, and status ID are required.",
     );
   });
 
@@ -81,7 +85,7 @@ describe("POST /demand", () => {
       userId: "invalid-user-id",
       description: "Test description",
       keywords: ["test", "demand", "invalid-user"],
-      status: "pending",
+      statusId: status.id,
     };
 
     await expect(
@@ -94,7 +98,7 @@ describe("POST /demand", () => {
       userId: user.id,
       description: "Tes",
       keywords: ["test", "demand", "invalid-description"],
-      status: "pending",
+      statusId: status.id,
     };
 
     await expect(
@@ -107,7 +111,7 @@ describe("POST /demand", () => {
       userId: user.id,
       description: "Test keywords demand",
       keywords: [],
-      status: "pending",
+      statusId: status.id,
     };
 
     await expect(
@@ -115,16 +119,16 @@ describe("POST /demand", () => {
     ).rejects.toThrow("Keywords must be provided as a non-empty array.");
   });
 
-  it("Should throw an error when status is not an allowed value", async () => {
+  it("Should throw an error when status doesnt exists", async () => {
     const newInvalidStatusDemand: IDemandRequest = {
       userId: user.id,
       description: "Test status demand",
       keywords: ["test", "demand", "invalid-status"],
-      status: "invalid-status",
+      statusId: "invalid-status",
     };
 
     await expect(
       createDemandService.execute(newInvalidStatusDemand, testPrisma),
-    ).rejects.toThrow("Invalid status value.");
+    ).rejects.toThrow("Status not found.");
   });
 });

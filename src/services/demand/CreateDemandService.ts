@@ -5,17 +5,17 @@ interface IDemandRequest {
   userId: string;
   description: string;
   keywords: string[];
-  status: string;
+  statusId: string;
 }
 
 class CreateDemandService {
   async execute(
-    { userId, description, keywords, status }: IDemandRequest,
+    { userId, description, keywords, statusId }: IDemandRequest,
     client: PrismaClient = testPrisma,
   ) {
-    if (!userId || !description || !keywords || !status) {
+    if (!userId || !description || !keywords || !statusId) {
       throw new Error(
-        "User ID, description, keywords, and status are required.",
+        "User ID, description, keywords, and status ID are required.",
       );
     }
 
@@ -32,9 +32,11 @@ class CreateDemandService {
       throw new Error("Keywords must be provided as a non-empty array.");
     }
 
-    const validStatusValues = ["pending", "approved", "rejected"];
-    if (!validStatusValues.includes(status)) {
-      throw new Error("Invalid status value.");
+    const statusExists = await client.status.findUnique({
+      where: { id: statusId },
+    });
+    if (!statusExists) {
+      throw new Error("Status not found.");
     }
 
     const createdDemand = await client.demand.create({
@@ -42,7 +44,7 @@ class CreateDemandService {
         userId,
         description,
         keywords: { set: keywords },
-        status,
+        statusId,
       },
       include: {
         user: {
