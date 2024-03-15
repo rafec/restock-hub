@@ -6,12 +6,12 @@ interface IDemandRequest {
   userId?: string;
   description?: string;
   keywords?: string[];
-  status?: string;
+  statusId?: string;
 }
 
 class UpdateDemandService {
   async execute(
-    { id, userId, description, keywords, status }: IDemandRequest,
+    { id, userId, description, keywords, statusId }: IDemandRequest,
     client: PrismaClient = testPrisma,
   ) {
     const existingDemand = await client.demand.findUnique({ where: { id } });
@@ -45,10 +45,12 @@ class UpdateDemandService {
       // }
     }
 
-    if (status) {
-      const validStatusValues = ["pending", "approved", "rejected"];
-      if (!validStatusValues.includes(status)) {
-        throw new Error("Invalid status value.");
+    if (statusId) {
+      const statusExists = await client.status.findUnique({
+        where: { id: statusId },
+      });
+      if (!statusExists) {
+        throw new Error("Status not found.");
       }
     }
 
@@ -58,7 +60,7 @@ class UpdateDemandService {
         userId,
         description,
         keywords: keywords ? { set: keywords } : undefined,
-        status,
+        statusId,
       },
       include: {
         user: {

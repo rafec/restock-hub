@@ -7,10 +7,11 @@ describe("PUT /demand", () => {
     userId?: string;
     description?: string;
     keywords?: string[];
-    status?: string;
+    statusId?: string;
   }
 
   let role;
+  let status;
   let user;
   let demand;
   let updateDemandService: UpdateDemandService;
@@ -24,6 +25,10 @@ describe("PUT /demand", () => {
       data: {
         roleName: "test-demand-update-role",
       },
+    });
+
+    status = await testPrisma.status.create({
+      data: { name: "test-demand-update-status" },
     });
 
     user = await testPrisma.user.create({
@@ -40,7 +45,7 @@ describe("PUT /demand", () => {
         userId: user.id,
         description: "Test description update demand.",
         keywords: ["test", "update", "demand"],
-        status: "pending",
+        statusId: status.id,
       },
     });
   });
@@ -48,6 +53,7 @@ describe("PUT /demand", () => {
   afterEach(async () => {
     await testPrisma.demand.deleteMany();
     await testPrisma.user.deleteMany();
+    await testPrisma.status.deleteMany();
     await testPrisma.role.deleteMany();
   });
 
@@ -57,7 +63,7 @@ describe("PUT /demand", () => {
       userId: user.id,
       description: "Test description update demand [UPDATED].",
       keywords: ["test", "demand", "updated"],
-      status: "approved",
+      statusId: status.id,
     };
 
     const updatedDemand = await updateDemandService.execute(
@@ -72,7 +78,7 @@ describe("PUT /demand", () => {
     expect(updatedDemand.keywords).toStrictEqual(
       updateDemandProperties.keywords,
     );
-    expect(updatedDemand.status).toBe(updateDemandProperties.status);
+    expect(updatedDemand.statusId).toBe(updateDemandProperties.statusId);
   });
 
   it("Should return the same object when no values are sent to update", async () => {
@@ -94,7 +100,7 @@ describe("PUT /demand", () => {
     expect(updatedDemand.userId).toBe(existentDemand.userId);
     expect(updatedDemand.description).toBe(existentDemand.description);
     expect(updatedDemand.keywords).toStrictEqual(existentDemand.keywords);
-    expect(updatedDemand.status).toBe(existentDemand.status);
+    expect(updatedDemand.statusId).toBe(existentDemand.statusId);
   });
 
   it("Should throw an error when demand doesnt exists", async () => {
@@ -113,7 +119,7 @@ describe("PUT /demand", () => {
       userId: "invalid-user-id",
       description: "Test description",
       keywords: ["test", "demand", "invalid-user"],
-      status: "pending",
+      statusId: status.id,
     };
 
     await expect(
@@ -127,7 +133,7 @@ describe("PUT /demand", () => {
       userId: user.id,
       description: "Tes",
       keywords: ["test", "demand", "invalid-description"],
-      status: "pending",
+      statusId: status.id,
     };
 
     await expect(
@@ -141,7 +147,7 @@ describe("PUT /demand", () => {
       userId: user.id,
       description: "Test keywords demand",
       keywords: [],
-      status: "pending",
+      statusId: status.id,
     };
 
     await expect(
@@ -149,17 +155,17 @@ describe("PUT /demand", () => {
     ).rejects.toThrow("Keywords must be provided as a non-empty array.");
   });
 
-  it("Should throw an error when status is not an allowed value", async () => {
+  it("Should throw an error when status doesnt exists", async () => {
     const newInvalidStatusDemand: IDemandRequest = {
       id: demand.id,
       userId: user.id,
       description: "Test status demand",
       keywords: ["test", "demand", "invalid-status"],
-      status: "invalid-status",
+      statusId: "invalid-status",
     };
 
     await expect(
       updateDemandService.execute(newInvalidStatusDemand, testPrisma),
-    ).rejects.toThrow("Invalid status value.");
+    ).rejects.toThrow("Status not found.");
   });
 });
