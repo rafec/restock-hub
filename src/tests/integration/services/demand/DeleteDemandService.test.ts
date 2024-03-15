@@ -3,6 +3,7 @@ import { DeleteDemandService } from "services/demand/DeleteDemandService";
 
 describe("DELETE /demand/:id", () => {
   let role;
+  let status;
   let user;
   let demand;
   let deleteDemandService: DeleteDemandService;
@@ -16,6 +17,10 @@ describe("DELETE /demand/:id", () => {
       data: {
         roleName: "test-demand-delete-role",
       },
+    });
+
+    status = await testPrisma.status.create({
+      data: { name: "test-delete-demand-status" },
     });
 
     user = await testPrisma.user.create({
@@ -32,7 +37,7 @@ describe("DELETE /demand/:id", () => {
         userId: user.id,
         description: "Test description delete demand.",
         keywords: ["test", "delete", "demand"],
-        status: "pending",
+        statusId: status.id,
       },
     });
   });
@@ -40,6 +45,7 @@ describe("DELETE /demand/:id", () => {
   afterEach(async () => {
     await testPrisma.demand.deleteMany();
     await testPrisma.user.deleteMany();
+    await testPrisma.status.deleteMany();
     await testPrisma.role.deleteMany();
   });
 
