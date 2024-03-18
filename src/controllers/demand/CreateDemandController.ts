@@ -5,7 +5,7 @@ interface IDemandRequest {
   userId: string;
   description: string;
   keywords: string[];
-  status: string;
+  statusId: string;
 }
 
 class CreateDemandController {
