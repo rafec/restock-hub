@@ -45,7 +45,8 @@ model Product {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  stock Stock[]
+  stock       Stock[]
+  transaction Transaction[]
 }
 
 model Status {
@@ -93,6 +94,7 @@ model Transaction {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  buyer    User @relation("BuyerTransactions", fields: [buyerId], references: [id])
-  supplier User @relation("SupplierTransactions", fields: [supplierId], references: [id])
+  buyer    User    @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  supplier User    @relation("SupplierTransactions", fields: [supplierId], references: [id])
+  product  Product @relation(fields: [productId], references: [id])
 }

@@ -17,6 +17,12 @@ class FindAllTransactionsService {
             name: true,
           },
         },
+        product: {
+          select: {
+            id: true,
+            productName: true,
+          },
+        },
       },
     });
 

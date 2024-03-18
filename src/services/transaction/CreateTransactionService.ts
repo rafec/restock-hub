@@ -76,6 +76,12 @@ class CreateTransactionService {
             name: true,
           },
         },
+        product: {
+          select: {
+            id: true,
+            productName: true,
+          },
+        },
       },
     });
 
