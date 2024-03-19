@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 import testPrisma from "lib/testPrisma";
 
 interface IUserRequest {
@@ -30,6 +31,8 @@ class UpdateUserService {
     }: IUserRequest,
     client: PrismaClient = testPrisma,
   ) {
+    let hashedPassword: string;
+
     const userExists = await client.user.findUnique({
       where: {
         id,
@@ -55,6 +58,7 @@ class UpdateUserService {
       if (password.length < 8) {
         throw new Error("Password must be at least 8 characters long.");
       }
+      hashedPassword = await bcrypt.hash(password, 10);
     }
 
     if (roleId) {
@@ -69,7 +73,7 @@ class UpdateUserService {
       data: {
         name,
         email,
-        password,
+        password: hashedPassword,
         zipcode,
         country,
         state,

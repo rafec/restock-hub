@@ -1,4 +1,5 @@
 import testPrisma from "lib/testPrisma";
+import bcrypt from "bcrypt";
 import { CreateUserService } from "services/user/CreateUserService";
 
 describe("POST /user", () => {
@@ -35,19 +36,26 @@ describe("POST /user", () => {
   });
 
   it("Should create a new user", async () => {
+    const hashedPassword = await bcrypt.hash("testpassword", 10);
     const newUser: IUserRequest = {
       name: "Test user",
       email: "test-user@mail.com",
-      password: "password",
+      password: hashedPassword,
       roleId: role.id,
     };
 
     const user = await createUserService.execute(newUser, testPrisma);
 
+    const passwordIsValid = await bcrypt.compare(
+      newUser.password,
+      user.password,
+    );
+
     expect(user).toBeDefined();
     expect(user.id).toBeDefined();
     expect(user.name).toBe(newUser.name);
     expect(user.email).toBe(newUser.email);
+    expect(passwordIsValid).toBeTruthy();
     expect(user.roleId).toBe(newUser.roleId);
   });
 

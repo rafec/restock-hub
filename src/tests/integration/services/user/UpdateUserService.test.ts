@@ -1,4 +1,5 @@
 import testPrisma from "lib/testPrisma";
+import bcrypt from "bcrypt";
 import { UpdateUserService } from "services/user/UpdateUserService";
 
 describe("PUT /user", () => {
@@ -44,10 +45,13 @@ describe("PUT /user", () => {
   });
 
   it("Should update a user by ID", async () => {
+    const hashedPassword = await bcrypt.hash("testpassword", 10);
     const updateUserProperties: IUserRequest = {
       id: user.id,
       name: "Updated Test User",
       email: "updatedemail@mail.com",
+      password: hashedPassword,
+      roleId: role.id,
     };
 
     const updatedUser = await updateUserService.execute(
@@ -55,10 +59,16 @@ describe("PUT /user", () => {
       testPrisma,
     );
 
+    const passwordIsValid = await bcrypt.compare(
+      updateUserProperties.password,
+      updatedUser.password,
+    );
+
     expect(updatedUser).toBeDefined();
     expect(updatedUser.id).toBeDefined();
     expect(updatedUser.name).toBe(updateUserProperties.name);
     expect(updatedUser.email).toBe(updateUserProperties.email);
+    expect(passwordIsValid).toBeTruthy();
   });
 
   it("Should return the same object when no values are sent to update", async () => {

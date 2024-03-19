@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 import testPrisma from "lib/testPrisma";
 
 interface IUserRequest {
@@ -30,6 +31,7 @@ class CreateUserService {
     if (password.length < 8) {
       throw new Error("Password must be at least 8 characters long.");
     }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const role = await client.role.findUnique({ where: { id: roleId } });
     if (!role) {
@@ -45,7 +47,7 @@ class CreateUserService {
       data: {
         name,
         email,
-        password,
+        password: hashedPassword,
         roleId,
         ...props,
       },
