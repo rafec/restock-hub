@@ -20,6 +20,10 @@ class CreateRoleService {
       throw new Error("Role already exists.");
     }
 
+    if (roleName.length < 2 || roleName.length > 25) {
+      throw new Error("Role name must be between 2 and 25 characters long.");
+    }
+
     const createdRole = await client.role.create({
       data: {
         roleName,

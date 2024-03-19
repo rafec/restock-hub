@@ -52,4 +52,14 @@ describe("POST /status", () => {
       createStatusService.execute(newStatus, testPrisma),
     ).rejects.toThrow("Status already exists.");
   });
+
+  it("Should throw an error when status name isnt between 2 and 25 characters long", async () => {
+    const newStatus: IStatusRequest = {
+      name: "R",
+    };
+
+    await expect(
+      createStatusService.execute(newStatus, testPrisma),
+    ).rejects.toThrow("Status name must be between 2 and 25 characters long.");
+  });
 });

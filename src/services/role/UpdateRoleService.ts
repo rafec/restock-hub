@@ -29,6 +29,10 @@ class UpdateRoleService {
       if (roleAlreadyExists) {
         throw new Error("Role already exists.");
       }
+
+      if (roleName.length < 2 || roleName.length > 25) {
+        throw new Error("Role name must be between 2 and 25 characters long.");
+      }
     }
 
     const updatedRole = await client.role.update({

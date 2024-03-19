@@ -49,4 +49,14 @@ describe("POST /role", () => {
       createRoleService.execute(newRole, testPrisma),
     ).rejects.toThrow("Role already exists.");
   });
+
+  it("Should throw an error when role name isnt between 2 and 25 characters long", async () => {
+    const newRole: IRoleRequest = {
+      roleName: "R",
+    };
+
+    await expect(
+      createRoleService.execute(newRole, testPrisma),
+    ).rejects.toThrow("Role name must be between 2 and 25 characters long.");
+  });
 });

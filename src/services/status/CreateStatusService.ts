@@ -20,6 +20,10 @@ class CreateStatusService {
       throw new Error("Status already exists.");
     }
 
+    if (name.length < 2 || name.length > 25) {
+      throw new Error("Status name must be between 2 and 25 characters long.");
+    }
+
     const createdStatus = await client.status.create({ data: { name } });
 
     return createdStatus;

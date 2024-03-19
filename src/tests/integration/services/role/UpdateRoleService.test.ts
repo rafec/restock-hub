@@ -81,4 +81,15 @@ describe("PUT /role", () => {
       updateRoleService.execute(updateRoleProperties, testPrisma),
     ).rejects.toThrow("Role not found.");
   });
+
+  it("Should throw an error when role name isnt between 2 and 25 characters long", async () => {
+    const updateRoleProperties: IRoleRequest = {
+      id: role.id,
+      roleName: "R",
+    };
+
+    await expect(
+      updateRoleService.execute(updateRoleProperties, testPrisma),
+    ).rejects.toThrow("Role name must be between 2 and 25 characters long.");
+  });
 });

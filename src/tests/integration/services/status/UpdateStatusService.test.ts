@@ -81,4 +81,15 @@ describe("PUT /status", () => {
       updateStatusService.execute(updateStatusProperties, testPrisma),
     ).rejects.toThrow("Status not found.");
   });
+
+  it("Should throw an error when status name isnt between 2 and 25 characters long", async () => {
+    const updateStatusProperties: IStatusRequest = {
+      id: status.id,
+      name: "R",
+    };
+
+    await expect(
+      updateStatusService.execute(updateStatusProperties, testPrisma),
+    ).rejects.toThrow("Status name must be between 2 and 25 characters long.");
+  });
 });
