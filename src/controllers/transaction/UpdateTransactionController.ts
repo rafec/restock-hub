@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UpdateTransactionService } from "services/transaction/UpdateTransactionService";
+import prisma from "lib/prisma";
 
 interface ITransactionRequest {
   buyerId: string;
@@ -16,10 +17,13 @@ class UpdateTransactionController {
       const transactionProps: ITransactionRequest = request.body;
       const updateTransactionService = new UpdateTransactionService();
 
-      const updatedTransaction = await updateTransactionService.execute({
-        id,
-        ...transactionProps,
-      });
+      const updatedTransaction = await updateTransactionService.execute(
+        {
+          id,
+          ...transactionProps,
+        },
+        prisma,
+      );
 
       return response.status(200).json({
         message: "Succesfull operation. Transaction updated.",

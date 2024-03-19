@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { FindTransactionService } from "services/transaction/FindTransactionService";
+import prisma from "lib/prisma";
 
 class FindTransactionController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
     try {
       const findTrasactionService = new FindTransactionService();
-      const transaction = await findTrasactionService.execute(id);
+      const transaction = await findTrasactionService.execute(id, prisma);
 
       return response
         .status(200)

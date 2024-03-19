@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { DeleteDemandService } from "services/demand/DeleteDemandService";
+import prisma from "lib/prisma";
 
 class DeleteDemandController {
   async handle(request: Request, response: Response) {
@@ -7,7 +8,7 @@ class DeleteDemandController {
       const { id } = request.params;
       const deleteDemandService = new DeleteDemandService();
 
-      const deletedDemand = await deleteDemandService.execute(id);
+      const deletedDemand = await deleteDemandService.execute(id, prisma);
 
       return response.status(204).json({
         message: "Succesfull operation. Demand deleted.",

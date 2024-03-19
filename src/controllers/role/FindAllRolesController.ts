@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { FindAllRolesService } from "services/role/FindAllRolesService";
+import prisma from "lib/prisma";
 
 class FindAllRolesController {
   async handle(request: Request, response: Response) {
     try {
       const findAllRolesService = new FindAllRolesService();
-      const allRoles = await findAllRolesService.execute();
+      const allRoles = await findAllRolesService.execute(prisma);
 
       return response
         .status(200)

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UpdateProductService } from "src/services/product/UpdateProductService";
+import prisma from "lib/prisma";
 
 interface IProductRequest {
   productName?: string;
@@ -14,10 +15,13 @@ class UpdateProductController {
       const productProps: IProductRequest = request.body;
       const updateProductService = new UpdateProductService();
 
-      const updatedProduct = await updateProductService.execute({
-        id,
-        ...productProps,
-      });
+      const updatedProduct = await updateProductService.execute(
+        {
+          id,
+          ...productProps,
+        },
+        prisma,
+      );
 
       return response.status(200).json({
         message: "Succesfull operation. Product updated.",

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreateProductService } from "src/services/product/CreateProductService";
+import prisma from "lib/prisma";
 
 interface IProductRequest {
   productName: string;
@@ -13,9 +14,12 @@ class CreateProductController {
       const productProps: IProductRequest = request.body;
       const createProductService = new CreateProductService();
 
-      const createdProduct = await createProductService.execute({
-        ...productProps,
-      });
+      const createdProduct = await createProductService.execute(
+        {
+          ...productProps,
+        },
+        prisma,
+      );
 
       return response.status(200).json({
         message: "Succesfull operation. Product created.",

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { FindProductService } from "services/product/FindProductService";
+import prisma from "lib/prisma";
 
 class FindProductController {
   async handle(request: Request, response: Response) {
@@ -7,7 +8,7 @@ class FindProductController {
     try {
       const findProductService = new FindProductService();
 
-      const product = await findProductService.execute(id);
+      const product = await findProductService.execute(id, prisma);
 
       return response
         .status(200)

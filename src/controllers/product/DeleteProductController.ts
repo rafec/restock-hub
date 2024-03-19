@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { DeleteProductService } from "services/product/DeleteProductService";
+import prisma from "lib/prisma";
 
 class DeleteProductController {
   async handle(request: Request, response: Response) {
@@ -7,7 +8,7 @@ class DeleteProductController {
     try {
       const deleteProductService = new DeleteProductService();
 
-      const deletedUser = await deleteProductService.execute(id);
+      const deletedUser = await deleteProductService.execute(id, prisma);
 
       return response.status(204).json({
         message: "Succesfull operation. Product deleted.",

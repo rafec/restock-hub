@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { FindDemandService } from "services/demand/FindDemandService";
+import prisma from "lib/prisma";
 
 class FindDemandController {
   async handle(request: Request, response: Response) {
@@ -7,7 +8,7 @@ class FindDemandController {
     try {
       const findDemandService = new FindDemandService();
 
-      const demand = await findDemandService.execute(id);
+      const demand = await findDemandService.execute(id, prisma);
       return response
         .status(200)
         .json({ message: "Succesfull operation.", data: demand });

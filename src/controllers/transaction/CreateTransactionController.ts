@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreateTransactionService } from "services/transaction/CreateTransactionService";
+import prisma from "lib/prisma";
 
 interface ITransactionRequest {
   buyerId: string;
@@ -15,9 +16,12 @@ class CreateTransactionController {
       const transactionProps: ITransactionRequest = request.body;
       const createTransactionService = new CreateTransactionService();
 
-      const createdTransaction = await createTransactionService.execute({
-        ...transactionProps,
-      });
+      const createdTransaction = await createTransactionService.execute(
+        {
+          ...transactionProps,
+        },
+        prisma,
+      );
 
       return response.status(200).json({
         message: "Succesfull operation. Transaction created.",

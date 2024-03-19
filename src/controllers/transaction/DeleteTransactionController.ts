@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { DeleteTransactionService } from "services/transaction/DeleteTransactionService";
+import prisma from "lib/prisma";
 
 class DeleteTransactionController {
   async handle(request: Request, response: Response) {
@@ -7,7 +8,10 @@ class DeleteTransactionController {
     try {
       const deleteTransactionService = new DeleteTransactionService();
 
-      const deletedTransaction = await deleteTransactionService.execute(id);
+      const deletedTransaction = await deleteTransactionService.execute(
+        id,
+        prisma,
+      );
 
       return response
         .status(204)

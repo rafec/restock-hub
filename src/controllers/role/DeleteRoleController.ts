@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { DeleteRoleService } from "services/role/DeleteRoleService";
+import prisma from "lib/prisma";
 
 class DeleteRoleController {
   async handle(request: Request, response: Response) {
@@ -7,7 +8,7 @@ class DeleteRoleController {
     try {
       const deleteRoleService = new DeleteRoleService();
 
-      const deletedRole = await deleteRoleService.execute(id);
+      const deletedRole = await deleteRoleService.execute(id, prisma);
 
       return response.status(204).json({
         message: "Succesfull operation. Role deleted.",

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreateRoleService } from "services/role/CreateRoleService";
+import prisma from "lib/prisma";
 
 interface IRoleRequest {
   roleName: string;
@@ -11,9 +12,12 @@ class CreateRoleController {
       const roleProps: IRoleRequest = request.body;
       const createRoleService = new CreateRoleService();
 
-      const createdRole = await createRoleService.execute({
-        ...roleProps,
-      });
+      const createdRole = await createRoleService.execute(
+        {
+          ...roleProps,
+        },
+        prisma,
+      );
 
       return response.status(201).json({
         message: "Succesfull operation. Role created.",

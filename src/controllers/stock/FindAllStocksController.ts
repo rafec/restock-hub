@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { FindAllStocksService } from "services/stock/FindAllStocksService";
+import prisma from "lib/prisma";
 
 class FindAllStocksController {
   async handle(request: Request, response: Response) {
     try {
       const findAllStocksService = new FindAllStocksService();
-      const allStocks = await findAllStocksService.execute();
+      const allStocks = await findAllStocksService.execute(prisma);
 
       return response
         .status(200)

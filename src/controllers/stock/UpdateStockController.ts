@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UpdateStockService } from "services/stock/UpdateStockService";
+import prisma from "lib/prisma";
 
 interface IStockRequest {
   supplierId?: string;
@@ -20,6 +21,7 @@ class UpdateStockController {
         {
           ...stockProps,
         },
+        prisma,
       );
 
       return response.status(200).json({

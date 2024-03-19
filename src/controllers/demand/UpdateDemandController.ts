@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UpdateDemandService } from "services/demand/UpdateDemandService";
+import prisma from "lib/prisma";
 
 interface IDemandRequest {
   userId?: string;
@@ -15,10 +16,13 @@ class UpdateDemandController {
       const demandProps: IDemandRequest = request.body;
       const updateDemandService = new UpdateDemandService();
 
-      const updatedDemand = await updateDemandService.execute({
-        id,
-        ...demandProps,
-      });
+      const updatedDemand = await updateDemandService.execute(
+        {
+          id,
+          ...demandProps,
+        },
+        prisma,
+      );
 
       return response.status(200).json({
         message: "Succesfull operation. Demand updated.",

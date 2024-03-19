@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreateUserService } from "services/user/CreateUserService";
+import prisma from "lib/prisma";
 
 interface IUserRequest {
   name: string;
@@ -18,9 +19,12 @@ class CreateUserController {
       const userProps: IUserRequest = request.body;
       const createUserService = new CreateUserService();
 
-      const createdUser = await createUserService.execute({
-        ...userProps,
-      });
+      const createdUser = await createUserService.execute(
+        {
+          ...userProps,
+        },
+        prisma,
+      );
 
       return response.status(201).json({
         message: "Succesfull operation. User created.",

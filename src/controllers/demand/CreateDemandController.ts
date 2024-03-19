@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreateDemandService } from "services/demand/CreateDemandService";
+import prisma from "lib/prisma";
 
 interface IDemandRequest {
   userId: string;
@@ -14,9 +15,12 @@ class CreateDemandController {
       const demandProps: IDemandRequest = request.body;
       const createDemandService = new CreateDemandService();
 
-      const createdDemand = await createDemandService.execute({
-        ...demandProps,
-      });
+      const createdDemand = await createDemandService.execute(
+        {
+          ...demandProps,
+        },
+        prisma,
+      );
 
       return response.status(200).json({
         message: "Succesfull operation. Demand created.",

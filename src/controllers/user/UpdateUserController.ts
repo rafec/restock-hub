@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UpdateUserService } from "services/user/UpdateUserService";
+import prisma from "lib/prisma";
 
 interface IUserRequest {
   name?: string;
@@ -21,10 +22,13 @@ class UpdateUserController {
     try {
       const userProps: IUserRequest = request.body;
       const updateUserService = new UpdateUserService();
-      const updatedUser = await updateUserService.execute({
-        id,
-        ...userProps,
-      });
+      const updatedUser = await updateUserService.execute(
+        {
+          id,
+          ...userProps,
+        },
+        prisma,
+      );
 
       return response.status(200).json({
         message: "Succesfull operation. User updated.",

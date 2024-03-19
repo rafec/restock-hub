@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreateStockService } from "services/stock/CreateStockService";
+import prisma from "lib/prisma";
 
 interface IStockRequest {
   supplierId: string;
@@ -13,9 +14,12 @@ class CreateStockController {
       const stockProps: IStockRequest = request.body;
       const createStockService = new CreateStockService();
 
-      const createdStock = await createStockService.execute({
-        ...stockProps,
-      });
+      const createdStock = await createStockService.execute(
+        {
+          ...stockProps,
+        },
+        prisma,
+      );
 
       return response.status(200).json({
         message: "Succesfull operation. Stock created.",
