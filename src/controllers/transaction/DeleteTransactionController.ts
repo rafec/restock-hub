@@ -18,7 +18,7 @@ class DeleteTransactionController {
         .json({ message: "Succesfull operation", data: deletedTransaction });
     } catch (error) {
       console.log(`Error deleting transaction with id ${id}`, error);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

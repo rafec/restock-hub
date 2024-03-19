@@ -22,7 +22,7 @@ class DeleteStockController {
       });
     } catch (error) {
       console.log("Error deleting stock.", error);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

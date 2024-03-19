@@ -13,7 +13,7 @@ class FindAllUsersController {
         .json({ message: "Succesfull operation.", data: allUsers });
     } catch (error) {
       console.log("Error retrieving users records", error);
-      response.status(404).json({ message: error.message, data: [] });
+      response.status(400).json({ message: error.message, data: [] });
     }
   }
 }

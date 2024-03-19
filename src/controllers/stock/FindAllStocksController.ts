@@ -13,7 +13,7 @@ class FindAllStocksController {
         .json({ message: "Succesfull operation.", data: allStocks });
     } catch (error) {
       console.log("Error retrieving stocks records.", error);
-      response.status(404).json({ message: error.message, data: [] });
+      response.status(400).json({ message: error.message, data: [] });
     }
   }
 }

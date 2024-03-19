@@ -14,7 +14,7 @@ class FindAllDemandsController {
         .json({ message: "Succesfull operation.", data: allDemands });
     } catch (error) {
       console.log("Error retrieving demands records.", error);
-      response.status(404).json({ message: error.message, data: [] });
+      response.status(400).json({ message: error.message, data: [] });
     }
   }
 }

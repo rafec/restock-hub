@@ -14,7 +14,7 @@ class FindTransactionController {
         .json({ message: "Succesfull operation.", data: transaction });
     } catch (error) {
       console.log(`Error retreving transaction with id ${id}`, error);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

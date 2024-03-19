@@ -14,7 +14,7 @@ class FindRoleController {
         .json({ message: "Succesfull operation.", data: role });
     } catch (error) {
       console.log(`Error retrieving role with id ${id}`, error);
-      return response.status(404).json({ message: error.message, data: {} });
+      return response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

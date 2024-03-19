@@ -29,7 +29,7 @@ class CreateTransactionController {
       });
     } catch (error) {
       console.log("Error creating transaction.", error);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

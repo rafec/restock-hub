@@ -32,7 +32,7 @@ class CreateUserController {
       });
     } catch (error) {
       console.log("Error creating user", error.message);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

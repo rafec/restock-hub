@@ -16,7 +16,7 @@ class DeleteProductController {
       });
     } catch (error) {
       console.log(`Error deleting product with id ${id}`, error);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

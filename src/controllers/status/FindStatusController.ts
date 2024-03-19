@@ -14,7 +14,7 @@ class FindStatusController {
         .json({ message: "Succesfull operation.", data: status });
     } catch (error) {
       console.log(`Error retrieving status with id ${id}`, error);
-      return response.status(404).json({ message: error.message, data: {} });
+      return response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

@@ -31,7 +31,7 @@ class UpdateTransactionController {
       });
     } catch (error) {
       console.log(`Error updating transaction with id ${id}.`);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

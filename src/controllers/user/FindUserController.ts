@@ -14,7 +14,7 @@ class FindUserController {
         .json({ message: "Succesfull operation.", data: user });
     } catch (error) {
       console.log(`Error retrieving user with id ${id}`, error);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

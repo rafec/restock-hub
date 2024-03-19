@@ -18,7 +18,7 @@ class FindStockController {
         .json({ message: "Succesfull operation.", data: stock });
     } catch (error) {
       console.log("Error finding stock.", error);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }

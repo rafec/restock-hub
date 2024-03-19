@@ -24,7 +24,7 @@ class UpdateRoleController {
       });
     } catch (error) {
       console.log(`Error updating role with id ${id}.`, error.message);
-      response.status(404).json({ message: error.message, data: {} });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }
