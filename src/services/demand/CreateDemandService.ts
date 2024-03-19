@@ -31,6 +31,11 @@ class CreateDemandService {
     if (!Array.isArray(keywords) || keywords.length === 0) {
       throw new Error("Keywords must be provided as a non-empty array.");
     }
+    for (const keyword of keywords) {
+      if (keyword.length < 2 || keyword.length > 20) {
+        throw new Error("Keyword length must be between 2 and 20 characters.");
+      }
+    }
 
     const statusExists = await client.status.findUnique({
       where: { id: statusId },

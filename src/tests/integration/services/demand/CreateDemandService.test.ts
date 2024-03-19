@@ -119,6 +119,19 @@ describe("POST /demand", () => {
     ).rejects.toThrow("Keywords must be provided as a non-empty array.");
   });
 
+  it("Should throw an error when keywords is not a non-empty array", async () => {
+    const newInvalidKeywordsDemand: IDemandRequest = {
+      userId: user.id,
+      description: "Test keywords demand",
+      keywords: ["test", "s", "testing"],
+      statusId: status.id,
+    };
+
+    await expect(
+      createDemandService.execute(newInvalidKeywordsDemand, testPrisma),
+    ).rejects.toThrow("Keyword length must be between 2 and 20 characters.");
+  });
+
   it("Should throw an error when status doesnt exists", async () => {
     const newInvalidStatusDemand: IDemandRequest = {
       userId: user.id,

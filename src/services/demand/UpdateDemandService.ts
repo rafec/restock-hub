@@ -36,13 +36,13 @@ class UpdateDemandService {
       if (!Array.isArray(keywords) || keywords.length === 0) {
         throw new Error("Keywords must be provided as a non-empty array.");
       }
-      // for (const keyword of keywords) {
-      //   if (keyword.length < 2 || keyword.length > 50) {
-      //     throw new Error(
-      //       "Keyword length must be between 2 and 50 characters.",
-      //     );
-      //   }
-      // }
+      for (const keyword of keywords) {
+        if (keyword.length < 2 || keyword.length > 20) {
+          throw new Error(
+            "Keyword length must be between 2 and 20 characters.",
+          );
+        }
+      }
     }
 
     if (statusId) {

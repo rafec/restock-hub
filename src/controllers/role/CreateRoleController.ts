@@ -12,13 +12,11 @@ class CreateRoleController {
       const roleProps: IRoleRequest = request.body;
       const createRoleService = new CreateRoleService();
 
-      const invalidClient = {} as any;
-
       const createdRole = await createRoleService.execute(
         {
           ...roleProps,
         },
-        invalidClient,
+        prisma,
       );
 
       return response.status(201).json({
