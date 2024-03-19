@@ -7,13 +7,12 @@ describe("PUT /user", () => {
     name?: string;
     email?: string;
     password?: string;
+    zipcode?: string;
     country?: string;
     state?: string;
     city?: string;
     address?: string;
     roleId?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
   }
 
   let role;

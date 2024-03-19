@@ -6,13 +6,12 @@ interface IUserRequest {
   name?: string;
   email?: string;
   password?: string;
+  zipcode?: string;
   country?: string;
   state?: string;
   city?: string;
   address?: string;
   roleId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
 }
 
 class UpdateUserService {
@@ -22,6 +21,7 @@ class UpdateUserService {
       name,
       email,
       password,
+      zipcode,
       country,
       state,
       city,
@@ -70,6 +70,7 @@ class UpdateUserService {
         name,
         email,
         password,
+        zipcode,
         country,
         state,
         city,
