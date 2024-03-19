@@ -25,7 +25,7 @@ class CreateRoleController {
       });
     } catch (error) {
       console.log("Error creating role: ", error.message);
-      response.status(400).json({ message: error.message, data: [] });
+      response.status(400).json({ message: error.message, data: {} });
     }
   }
 }
